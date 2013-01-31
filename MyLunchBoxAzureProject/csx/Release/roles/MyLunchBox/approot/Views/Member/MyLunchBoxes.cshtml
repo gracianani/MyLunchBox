@@ -1,0 +1,105 @@
+﻿@model IEnumerable<MyLunchBox.Models.Order>
+
+@{
+    ViewBag.Title = "MyLunchBoxes";
+}
+
+<div class="row">
+    <div class="span3 well" style="padding:20px 0;">
+    <ul class="nav nav-list">
+	    <li class="nav-header">My Account</li>
+	    <li>@Html.ActionLink("Account Settings", "MembershipDetails", "Member")</li>
+	    <li class="active">@Html.ActionLink("Orders", "MyLunchBoxes", "Member")</li>
+	    <li>@Html.ActionLink("Reward Points", "MyRewards", "Member")</li>
+	    <li>@Html.ActionLink("Voting", "MyVotes", "Member")</li>
+    </ul>
+    </div>
+    <div class="span9">
+    <div class="lightBox">
+        @if (Model.Count() == 0)
+        {
+            <h2> You haven't order anything yet, @Html.ActionLink("create one Now", "ChooseRestaurant", "CustomBentoBox")</h2>
+        }
+        else
+        {
+        	<h3>Orders</h3>
+            <table class="table table-striped">
+            <tr>
+            <th>
+            Order#
+            </th>
+            <th>
+            Lunchboxes
+            </th>
+            <th>
+            Delivery Info
+            </th>
+            <th>
+            Price
+            </th>
+            </tr>
+            @foreach (var order in Model)
+            {
+                <tr> 
+                    <td class="">
+                    	<em>#@order.OrderId</em>
+                        <p class="orderTime">@order.OrderReceivedAt.ToString("MMM dd, yyyy hh:mm")</p>
+                    </td> 
+                    <td>
+                    	<p class="orderRestaurant"> 
+                            @order.ShortDescription
+                        </p>
+                        <ul class="orderItems">
+                            @foreach (var orderItem in order.OrderItems)
+                            {
+                                <li>
+                                 <span class="orderItems-desc">@orderItem.Item.ItemDescription</span>  
+                                 <span class="orderItems-qty">x @orderItem.Quantity</span>
+                                
+                                  (<a href='@orderItem.EditUrl'> edit </a>)
+                                </li>
+                            }
+                        </ul>
+                        <a  href="/ShoppingCart/Edit?orderId=@order.OrderId"><i class="icon-plus icon-orange"></i>Reorder </a>
+ 					<td class="orderDelivery">
+                        @if( order.NeedDeliveryInfo != null ) {
+                            @order.ReceiverFirstName <text></text> @order.ReceiverLastName <br />
+                            <text>Phone :</text> @order.ReceiverPhoneNumber <br/>
+                            @order.DeliveryLocation.BusinessName <text></text>
+                            if (order.DeliveryLocation.University_Delivery.Count > 0)
+                            {
+                                @order.DeliveryLocation.University_Delivery.First().DeliveryTime.ToString("hh:mm tt")
+                            }
+                            <br />
+                            @order.OrderReceivedAt.ToString("MMM dd, yyyy") 
+                        }
+                    
+                    </td> 
+                    <td class="orderPrice">
+                    <br />
+                    @if (!string.IsNullOrEmpty(@order.TxnId))
+                    {
+                        <span class="label label-success">Credit Card Paid：<br />$@(order.Gross - order.Savings) </span>
+                    }
+                    else if (order.Gross > order.Savings)
+                    {
+                        <span class="label label-warning">Cash ：<br /><big>$@(order.Gross - order.Savings)</big> </span>
+                    }
+                    @if (@order.Savings > 0)
+                    {
+                        <span class="label label-info">Points Paid:<br />$@order.Savings</span>
+                    }
+                    
+                    </td>
+ 
+                   
+                </tr>
+            }
+            </table>
+        }
+    </div>
+    </div>
+</div>
+
+
+

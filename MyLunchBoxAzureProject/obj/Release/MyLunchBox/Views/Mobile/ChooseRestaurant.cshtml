@@ -1,0 +1,51 @@
+﻿@model IEnumerable<MyLunchBox.Models.Restaurant>
+@{
+    ViewBag.Title = "ChooseRestaurant";
+    Layout = "~/Views/Shared/_MobileMaster.cshtml";
+}
+
+<h2>ChooseRestaurant</h2>
+<ul id="steps" class="container clearfix">
+    <li class="step-current"><i class="ic-number">1</i> choose a restaurant</li>
+    <li><i class="ic-number">2</i> choose a lunchbox</li>
+    <li><i class="ic-number">3</i> fill my lunchbox</li>
+    <li><i class="ic-number">4</i> check out</li>
+</ul>
+<div class="container">
+    <div class="row">
+        <ul id="restaurant-list" class="span9">
+      
+            @foreach (var restaurant in Model)
+            {
+                <li class="restaurant-item clearfix">
+                    <div class="restaurant-img-wrap pull-left">
+                    	@if ( string.IsNullOrEmpty(restaurant.RestaurantImageUrl) ) {
+                        <img src="/Content/Images/Restaurants/restaurantDefault.png" />
+                        } else {
+                        <img src="@restaurant.RestaurantImageUrl" />
+                        }
+                    </div>
+                    <div class="restaurant-body pull-left">
+                        <h3>@restaurant.RestaurantName</h3>
+		                <p class="restaurant-time">@restaurant.RestaurantHoursString <span>|</span> Monday - Friday</p>
+                        <p>@restaurant.RestaurantShortDescription</p>
+                    </div>
+                    <div class="restaurant-status pull-right">
+                
+                        @if (restaurant.RestaurantStatus == MyLunchBox.Models.RestaurantStatusLevel.Opening)
+                        {
+                            @Html.ActionLink("Select", "ChooseBentoBox", new {restaurantId = @restaurant.RestaurantId})
+                        }
+                        else
+                        {
+                            @restaurant.RestaurantStatus.ToString()
+                        }
+                    </div>
+                    <div class="restaurant-actions">
+                
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,8 @@
+c:\Users\yaqiZhao\Documents\Visual Studio 2010\Projects\MyLunchBox\MyLunchBoxDatabase\sql\debug\MyLunchBoxDatabase_Script.PreDeployment.sql
+c:\Users\yaqiZhao\Documents\Visual Studio 2010\Projects\MyLunchBox\MyLunchBoxDatabase\sql\debug\MyLunchBoxDatabase_Script.PostDeployment.sql
+c:\Users\yaqiZhao\Documents\Visual Studio 2010\Projects\MyLunchBox\MyLunchBoxDatabase\sql\debug\MyLunchBoxDatabase_Database.sqlsettings
+c:\Users\yaqiZhao\Documents\Visual Studio 2010\Projects\MyLunchBox\MyLunchBoxDatabase\sql\debug\MyLunchBoxDatabase_Database.sqldeployment
+c:\Users\yaqiZhao\Documents\Visual Studio 2010\Projects\MyLunchBox\MyLunchBoxDatabase\sql\debug\MyLunchBoxDatabase_Database.sqlcmdvars
+c:\Users\yaqiZhao\Documents\Visual Studio 2010\Projects\MyLunchBox\MyLunchBoxDatabase\sql\debug\MyLunchBoxDatabase.deploymanifest
+c:\Users\yaqiZhao\Documents\Visual Studio 2010\Projects\MyLunchBox\MyLunchBoxDatabase\sql\debug\MyLunchBoxDatabase.dbschema
+c:\Users\yaqiZhao\Documents\Visual Studio 2010\Projects\MyLunchBox\MyLunchBoxDatabase\obj\Debug\MyLunchBoxDatabase.dbschema

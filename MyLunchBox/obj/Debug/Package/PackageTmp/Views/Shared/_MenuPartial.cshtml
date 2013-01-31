@@ -1,0 +1,65 @@
+﻿        
+                <ul id="header-menu">
+	        	    <li id="menu-home">
+		        	    <a class="header-menu-link @if(MyLunchBox.Models.SiteMenuHelper.Instance.CurrentSiteMenu == MyLunchBox.Models.SiteMenu.Home){ <text>active</text>}" href="/Home/Index">
+			        	    <i class="icon-homepage"></i>
+			        	    <span>home</span>
+		        	    </a>
+		            </li>
+		            <li id="menu-create">
+		        	    <a class="header-menu-link @if(MyLunchBox.Models.SiteMenuHelper.Instance.CurrentSiteMenu == MyLunchBox.Models.SiteMenu.Create){ <text>active</text>}" href="/CustomBentoBox/ChooseRestaurant/">
+			        	    <i class="icon-create"></i>
+			        	    <span>create a lunchbox</span>
+		        	    </a>
+		            </li>
+		            <li id="menu-cart">
+		        	    <a class="header-menu-link  @if(MyLunchBox.Models.SiteMenuHelper.Instance.CurrentSiteMenu == MyLunchBox.Models.SiteMenu.Cart){ <text>active</text>}" href="/ShoppingCart/Edit">
+			        	    <i class="icon-cart"></i>
+			        	    <span>cart 
+                            @if ( @MyLunchBox.Models.ShoppingCartHelper.GetCartItemCount(Context) > 0 ) {
+                            <i class="cart-num">@MyLunchBox.Models.ShoppingCartHelper.GetCartItemCount(Context)</i>
+                            }
+                            </span>
+		        	    </a>
+		            </li>
+		            <li id="menu-account"  class="smlHoverdown">
+		        	   
+			        	    @if(Request.IsAuthenticated) {
+			        	    	
+			        	    	<a  class="header-menu-link smlHoverdown-toggle @if(MyLunchBox.Models.SiteMenuHelper.Instance.CurrentSiteMenu == MyLunchBox.Models.SiteMenu.Account){ <text>active</text>}" data-toggle="smlHoverdown" href="/Member/MembershipDetails">
+				        	    <i class="icon-account"></i>
+			        	    	<span>my account</span>
+			        	    	<ul class="smlHoverdown-menu">
+								    <li><a href="/Member/MembershipDetails">Account Settings</a></li>
+								    <li>@Html.ActionLink("Orders", "MyLunchBoxes", "Member")</li>
+								    <li><a href="/Member/MyRewards">Reward Points</a></li>
+								    <li><a href="/Member/MyVotes">Voting</a></li>
+								</ul>
+			        	    	</a>
+								
+			        	    }else {
+			        	    	<a class="header-menu-link @if(MyLunchBox.Models.SiteMenuHelper.Instance.CurrentSiteMenu == MyLunchBox.Models.SiteMenu.Account){ <text>active</text>}" href="/Account/LogOn">
+				        	    <i class="icon-account"></i>
+			        	    	<span>log in</span>
+			        	    	</a>
+			        	    }
+		        	    </a>
+		            </li>
+		            <li id="menu-help">
+		        	    <a class="header-menu-link @if(MyLunchBox.Models.SiteMenuHelper.Instance.CurrentSiteMenu == MyLunchBox.Models.SiteMenu.Help){ <text>active</text>}"  href="/Home/About">
+			        	    <i class="icon-help"></i>
+			        	    <span>help</span>
+		        	    </a>
+	        	    </li>
+	            </ul>
+<script>
+$(function(){
+	$('.smlHoverdown').on('mouseenter', function(e){
+		var link = $(e.currentTarget);
+		link.addClass('open');
+	}).on('mouseleave', function(e){
+		var link = $(e.currentTarget);
+		link.removeClass('open');
+	});
+});           
+</script>

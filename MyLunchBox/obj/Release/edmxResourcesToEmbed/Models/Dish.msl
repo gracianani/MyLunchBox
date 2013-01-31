@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MyLunchBoxDevelopmentModelStoreContainer" CdmEntityContainer="MyLunchBoxDevelopmentEntities">
+    <EntitySetMapping Name="Locations">
+      <EntityTypeMapping TypeName="IsTypeOf(MyLunchBoxDevelopmentModel.Location)">
+        <MappingFragment StoreEntitySet="Locations">
+          <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="phoneNumber" />
+          <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="StateOrProvince" ColumnName="StateOrProvince" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Address2" ColumnName="Address2" />
+          <ScalarProperty Name="Address1" ColumnName="Address1" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="BusinessName" ColumnName="BusinessName" />
+          <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+          <ScalarProperty Name="LocationId" ColumnName="LocationId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ShoppingCartItems">
+      <EntityTypeMapping TypeName="IsTypeOf(MyLunchBoxDevelopmentModel.ShoppingCartItem)">
+        <MappingFragment StoreEntitySet="ShoppingCartItems">
+          <ScalarProperty Name="LastUpdatedAt" ColumnName="LastUpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="ItemTypeId" ColumnName="ItemTypeId" />
+          <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ShoppingCartId" ColumnName="ShoppingCartId" />
+          <ScalarProperty Name="ShoppingCartItemId" ColumnName="ShoppingCartItemId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ShoppingCarts">
+      <EntityTypeMapping TypeName="IsTypeOf(MyLunchBoxDevelopmentModel.ShoppingCart)">
+        <MappingFragment StoreEntitySet="ShoppingCarts">
+          <ScalarProperty Name="LastUpdatedAt" ColumnName="LastUpdatedAt" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ShoppingCartId" ColumnName="ShoppingCartId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderItems">
+      <EntityTypeMapping TypeName="MyLunchBoxDevelopmentModel.OrderItem">
+        <MappingFragment StoreEntitySet="OrderItems">
+          <ScalarProperty Name="LineItemCost" ColumnName="lineItemCost" />
+          <ScalarProperty Name="Quantity" ColumnName="quantity" />
+          <ScalarProperty Name="ItemTypeId" ColumnName="itemTypeId" />
+          <ScalarProperty Name="ItemId" ColumnName="itemId" />
+          <ScalarProperty Name="OrderId" ColumnName="orderId" />
+          <ScalarProperty Name="OrderItemId" ColumnName="orderItemId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustomBentoBoxes">
+      <EntityTypeMapping TypeName="MyLunchBoxDevelopmentModel.CustomBentoBox">
+        <MappingFragment StoreEntitySet="CustomBentoBox">
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="BentoBoxId" ColumnName="BentoBoxId" />
+          <ScalarProperty Name="CustomBentoBoxName" ColumnName="CustomBentoBoxName" />
+          <ScalarProperty Name="CustomBentoBoxId" ColumnName="CustomBentoBoxId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BentoBoxes">
+      <EntityTypeMapping TypeName="MyLunchBoxDevelopmentModel.BentoBox">
+        <MappingFragment StoreEntitySet="BentoBox">
+          <ScalarProperty Name="BentoBoxStatusId" ColumnName="bentoBoxStatusId" />
+          <ScalarProperty Name="BentoBoxTypeId" ColumnName="bentoBoxTypeId" />
+          <ScalarProperty Name="BentoBoxImageUrl" ColumnName="bentoBoxImageUrl" />
+          <ScalarProperty Name="RestaurantId" ColumnName="RestaurantId" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="BentoBoxDescription" ColumnName="BentoBoxDescription" />
+          <ScalarProperty Name="BentoBoxName" ColumnName="BentoBoxName" />
+          <ScalarProperty Name="BentoBoxId" ColumnName="BentoBoxId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Restaurants">
+      <EntityTypeMapping TypeName="MyLunchBoxDevelopmentModel.Restaurant">
+        <MappingFragment StoreEntitySet="Restaurants">
+          <ScalarProperty Name="RestaurantDetailedDescription" ColumnName="RestaurantDetailedDescription" />
+          <ScalarProperty Name="RestaurantShortDescription" ColumnName="RestaurantShortDescription" />
+          <ScalarProperty Name="RestaurantImageUrl" ColumnName="RestaurantImageUrl" />
+          <ScalarProperty Name="UniversityId" ColumnName="universityId" />
+          <ScalarProperty Name="RestaurantLocationId" ColumnName="RestaurantLocationId" />
+          <ScalarProperty Name="RestaurantHours2To" ColumnName="RestaurantHours2To" />
+          <ScalarProperty Name="RestaurantHours2From" ColumnName="RestaurantHours2From" />
+          <ScalarProperty Name="RestaurantHoursTo" ColumnName="RestaurantHoursTo" />
+          <ScalarProperty Name="RestaurantHoursFrom" ColumnName="RestaurantHoursFrom" />
+          <ScalarProperty Name="RestaurantStatusId" ColumnName="RestaurantStatusId" />
+          <ScalarProperty Name="RestaurantName" ColumnName="RestaurantName" />
+          <ScalarProperty Name="RestaurantId" ColumnName="RestaurantId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="University_Delivery">
+      <EntityTypeMapping TypeName="MyLunchBoxDevelopmentModel.University_Delivery">
+        <MappingFragment StoreEntitySet="University_Delivery">
+          <ScalarProperty Name="DeliveryTime" ColumnName="deliveryTime" />
+          <ScalarProperty Name="LocationId" ColumnName="locationId" />
+          <ScalarProperty Name="UniversityId" ColumnName="universityId" />
+          <ScalarProperty Name="UniversityDeliveryId" ColumnName="universityDeliveryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Universities">
+      <EntityTypeMapping TypeName="MyLunchBoxDevelopmentModel.University">
+        <MappingFragment StoreEntitySet="Universities">
+          <ScalarProperty Name="UniversityLocationId" ColumnName="UniversityLocationId" />
+          <ScalarProperty Name="UniversityName" ColumnName="UniversityName" />
+          <ScalarProperty Name="UniversityId" ColumnName="UniversityId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustomBentoBoxItems">
+      <EntityTypeMapping TypeName="MyLunchBoxDevelopmentModel.CustomBentoBoxItem">
+        <MappingFragment StoreEntitySet="CustomBentoBoxItem">
+          <ScalarProperty Name="Quantity" ColumnName="quantity" />
+          <ScalarProperty Name="DishId" ColumnName="DishId" />
+          <ScalarProperty Name="CustomBentoBoxId" ColumnName="CustomBentoBoxId" />
+          <ScalarProperty Name="CustomBentoBoxItemId" ColumnName="CustomBentoBoxItemId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Announcements">
+      <EntityTypeMapping TypeName="MyLunchBoxDevelopmentModel.Announcement">
+        <MappingFragment StoreEntitySet="Announcement">
+          <ScalarProperty Name="IsShownOnHomePage" ColumnName="IsShownOnHomePage" />
+          <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+          <ScalarProperty Name="AnnouncementText" ColumnName="AnnouncementText" />
+          <ScalarProperty Name="AnnouncementId" ColumnName="AnnouncementId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Dishes">
+      <EntityTypeMapping TypeName="MyLunchBoxDevelopmentModel.Dish">
+        <MappingFragment StoreEntitySet="Dishes">
+          <ScalarProperty Name="IsOnVoting" ColumnName="isOnVoting" />
+          <ScalarProperty Name="DishIncrementalPrice" ColumnName="dishIncrementalPrice" />
+          <ScalarProperty Name="DishTypeId" ColumnName="DishTypeId" />
+          <ScalarProperty Name="DishImageUrl" ColumnName="dishImageUrl" />
+          <ScalarProperty Name="RestaurantId" ColumnName="restaurantId" />
+          <ScalarProperty Name="DetailedDescription" ColumnName="detailedDescription" />
+          <ScalarProperty Name="ShortDescription" ColumnName="shortDescription" />
+          <ScalarProperty Name="DishStatusId" ColumnName="dishStatusId" />
+          <ScalarProperty Name="DishName" ColumnName="dishName" />
+          <ScalarProperty Name="DishId" ColumnName="dishId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Votings">
+      <EntityTypeMapping TypeName="MyLunchBoxDevelopmentModel.Voting">
+        <MappingFragment StoreEntitySet="votings">
+          <ScalarProperty Name="VotedBy" ColumnName="votedBy" />
+          <ScalarProperty Name="VotedOn" ColumnName="votedOn" />
+          <ScalarProperty Name="DishId" ColumnName="dishId" />
+          <ScalarProperty Name="VotingId" ColumnName="votingId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="MyLunchBoxDevelopmentModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="failedPasswordAnswerAttemptCount" ColumnName="failedPasswordAnswerAttemptCount" />
+          <ScalarProperty Name="failedPasswordAttemptCount" ColumnName="failedPasswordAttemptCount" />
+          <ScalarProperty Name="passwordAnswer" ColumnName="passwordAnswer" />
+          <ScalarProperty Name="passwordQuestion" ColumnName="passwordQuestion" />
+          <ScalarProperty Name="fbAccessToken" ColumnName="fbAccessToken" />
+          <ScalarProperty Name="addressId" ColumnName="addressId" />
+          <ScalarProperty Name="isConfirmed" ColumnName="isConfirmed" />
+          <ScalarProperty Name="receiveEmail" ColumnName="receiveEmail" />
+          <ScalarProperty Name="facebookUserId" ColumnName="facebookUserId" />
+          <ScalarProperty Name="isApproved" ColumnName="isApproved" />
+          <ScalarProperty Name="isLockedOut" ColumnName="isLockedOut" />
+          <ScalarProperty Name="lastPasswordChangedAt" ColumnName="lastPasswordChangedAt" />
+          <ScalarProperty Name="lastLockoutAt" ColumnName="lastLockoutAt" />
+          <ScalarProperty Name="lastLoginAt" ColumnName="lastLoginAt" />
+          <ScalarProperty Name="lastActivityAt" ColumnName="lastActivityAt" />
+          <ScalarProperty Name="referrer" ColumnName="referrer" />
+          <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+          <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
+          <ScalarProperty Name="lastName" ColumnName="lastName" />
+          <ScalarProperty Name="firstName" ColumnName="firstName" />
+          <ScalarProperty Name="strkey" ColumnName="strkey" />
+          <ScalarProperty Name="salt" ColumnName="salt" />
+          <ScalarProperty Name="hashedPAssword" ColumnName="hashedPAssword" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RewardCards">
+      <EntityTypeMapping TypeName="MyLunchBoxDevelopmentModel.RewardCard">
+        <MappingFragment StoreEntitySet="RewardCards">
+          <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="RewardDescription" ColumnName="RewardDescription" />
+          <ScalarProperty Name="RewardPoints" ColumnName="RewardPoints" />
+          <ScalarProperty Name="RewardCardId" ColumnName="RewardCardId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserDetails">
+      <EntityTypeMapping TypeName="MyLunchBoxDevelopmentModel.UserDetail">
+        <MappingFragment StoreEntitySet="UserDetails">
+          <ScalarProperty Name="UniversityDeliveryId" ColumnName="UniversityDeliveryId" />
+          <ScalarProperty Name="LocationId" ColumnName="locationId" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="phoneNumber" />
+          <ScalarProperty Name="UniversityId" ColumnName="universityId" />
+          <ScalarProperty Name="LastName" ColumnName="lastName" />
+          <ScalarProperty Name="FirstName" ColumnName="firstName" />
+          <ScalarProperty Name="UserId" ColumnName="userId" />
+          <ScalarProperty Name="UserDetailsId" ColumnName="userDetailsId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Rewards">
+      <EntityTypeMapping TypeName="MyLunchBoxDevelopmentModel.Reward">
+        <MappingFragment StoreEntitySet="Rewards">
+          <ScalarProperty Name="OrderId" ColumnName="orderId" />
+          <ScalarProperty Name="Txn" ColumnName="Txn" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="RewardDescription" ColumnName="RewardDescription" />
+          <ScalarProperty Name="RewardCreatedAt" ColumnName="RewardCreatedAt" />
+          <ScalarProperty Name="Amount" ColumnName="DiscountAmount" />
+          <ScalarProperty Name="RewardTypeId" ColumnName="RewareTypeId" />
+          <ScalarProperty Name="RewardId" ColumnName="RewardId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Orders">
+      <EntityTypeMapping TypeName="MyLunchBoxDevelopmentModel.Order">
+        <MappingFragment StoreEntitySet="Orders">
+          <ScalarProperty Name="DeliveryTime" ColumnName="DeliveryTime" />
+          <ScalarProperty Name="ReceiverPhoneNumber" ColumnName="receiverPhoneNumber" />
+          <ScalarProperty Name="DeliveryLocationId" ColumnName="DeliveryLocationId" />
+          <ScalarProperty Name="ReceiverLastName" ColumnName="ReceiverLastName" />
+          <ScalarProperty Name="ReceiverFirstName" ColumnName="ReceiverFirstName" />
+          <ScalarProperty Name="Savings" ColumnName="Savings" />
+          <ScalarProperty Name="PaymentNote" ColumnName="PaymentNote" />
+          <ScalarProperty Name="Tax" ColumnName="Tax" />
+          <ScalarProperty Name="Fee" ColumnName="Fee" />
+          <ScalarProperty Name="Gross" ColumnName="Gross" />
+          <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+          <ScalarProperty Name="OrderDescription" ColumnName="OrderDescription" />
+          <ScalarProperty Name="OrderReceivedAt" ColumnName="OrderReceivedAt" />
+          <ScalarProperty Name="OrderStatusId" ColumnName="OrderStatusId" />
+          <ScalarProperty Name="PayerEmail" ColumnName="PayerEmail" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="TxnId" ColumnName="TxnId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

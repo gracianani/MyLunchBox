@@ -1,0 +1,114 @@
+﻿@model MyLunchBox.Models.UniversityDeliveryViewModel
+
+@{
+    ViewBag.Title = "ManageDeliveryHours";
+}
+<div class="row">
+    <div class="span3 well" style="padding:20px 0;">
+        <ul class="nav nav-list">
+	        <li class="nav-header">Admin</li>
+            <li>@Html.ActionLink("Today's Orders", "ViewAllOrders", "Admin")</li>
+	        <li>@Html.ActionLink("Manage Restaurants", "ManageRestaurants", "Admin")</li>
+            <li>@Html.ActionLink("Manage Universities", "ManageUniversities", "Admin")</li>
+	        <li class="active">@Html.ActionLink("Manage DeliveryHours", "ManageDeliveryHours", "Admin")</li>
+	        <li>@Html.ActionLink("LuckyDraw", "LuckyDraw", "Admin")</li>
+            <li>@Html.ActionLink("Manage Votes", "ManageVotes", "Admin")</li>
+        </ul>
+    </div>
+
+    <div class="span9">
+    <div class="lightBox">
+    <h3>Manage Delivery Hours</h3>
+        <table class="table table-striped ">
+            <tr><th>University Name</th><th>Delivery Location & Time</th></tr>
+            @foreach (var item in Model.Universities)
+            {
+                <tr><td>@item.UniversityName</td> 
+                    <td>
+                        <ul class="locationList">
+                        @foreach (var delivery in @item.University_Delivery)
+                        {
+                            <li> 
+                            <strong>@delivery.Location.BusinessName</strong> 
+                               - @delivery.DeliveryTime.ToString("hh:mm tt") 
+                               @Html.ActionLink("( Delete )", "DeleteDeliveryLocation", new { @UniversityDeliveryId = @delivery.UniversityDeliveryId })</li>
+                        }
+                        </ul>
+                    </td>
+                </tr>
+            }
+        </table>
+        <hr />
+               
+        <div class="form-horizontal">
+                @using (Html.BeginForm("AddDeliveryLocation", "Admin", FormMethod.Get))
+                {
+                	<fieldset>
+                 	<legend> Create New Delivery Location </legend>
+                    <div class="control-group">
+                        <label class="control-label" for="deliveryTime">DeliveryTime</label>
+                        <div class="controls">
+                            @Html.TextBoxFor(m=>m.DeliveryTime,new { @class = "input-mini" })
+                            @Html.ValidationMessageFor(m => m.DeliveryTime)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="universities">University</label>
+                        <div class="controls">
+                        	@Html.DropDownList( "universities", Model.UniversityList)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="locationName">Location Name</label>
+                        <div class="controls">
+                        	@Html.Editor("locationName")
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="address1">Address1</label>
+                        <div class="controls">
+                        	@Html.Editor("address1")
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="address2">Address2</label>
+                        <div class="controls">
+                        	@Html.Editor("address2")
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="city">City</label>
+                        <div class="controls">
+                        	@Html.Editor("city")
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="state">State</label>
+                        <div class="controls">
+                        	@Html.DropDownList("state",  @MyLunchBox.Models.StatesRepository.Instance.StatesList)
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="zipCode">Zip Code</label>
+                        <div class="controls">
+                        	@Html.Editor("zipCode")
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="phoneNumber">Phone Number</label>
+                        <div class="controls">
+                        	@Html.Editor("phoneNumber")
+                        </div>
+                    </div>
+
+                    </fieldset>
+                    <p class="clearfix">
+                    <input type="submit" value="Create" class="btn btn-primary btn-big pull-right" />
+                    </p>
+                }
+                </div>
+                    
+                
+        </div>
+    </div>
+</div>

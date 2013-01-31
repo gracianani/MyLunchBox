@@ -1,0 +1,28 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.hicbg{
+	background:#c84c0b url(Images/texture-orange.png);
+}
+.ui-body-a, .ui-overlay-a {
+	background:url(Images/bodybg.jpg);
+}
+.ui-input-text {
+	background:#efefef;
+}
+.responsiveImg {
+	max-width:100%;
+}
+#welcomeInfo {
+	padding:10px 0 0 0;
+	zoom:1;
+	display:inline-block;
+}
+.ui-shadow {
+	-webkit-box-shadow:none;
+	-moz-box-shadow:none;
+	box-shadow:none;
+}
+.ui-li-thumb {
+	margin:1em 0 0;
+}

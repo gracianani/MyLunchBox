@@ -1,0 +1,17 @@
+﻿@model MyLunchBox.Models.Order
+@{
+    ViewBag.Title = "Payment Complete";
+}
+<div class="lightBox row">
+<div class="span3" style="text-align:center">
+<img src="../../Content/Images/sucimg.png" />
+</div>
+<div class="span7">
+<h2>Payment Complete</h2>
+<p>Thanks for your order! <br />Your order number is: <em>@Model.OrderId</em></p>
+
+<p><a class="btn btn-primary btn-big" href="/Member/MyLunchBoxes">View Orders</a> </p>
+<p><a class="btn btn-big" href="/Member/MyRewards"><i class="icon-gift icon-white"></i> Buy Some Reward Points</a></p>
+
+</div>
+</div>

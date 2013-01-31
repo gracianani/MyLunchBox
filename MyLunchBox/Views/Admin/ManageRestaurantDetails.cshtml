@@ -1,0 +1,222 @@
+﻿@model MyLunchBox.Models.Restaurant
+
+@{
+    ViewBag.Title = "Details";
+    var isNew = false;
+    if (ViewData["NewRestaurant"] != null && ViewData["NewRestaurant"].ToString() == "1")
+    {
+        isNew = true;
+    }
+    var dishTypeList = Enum.GetNames(typeof(MyLunchBox.Models.DishType)).Select(i => new SelectListItem() { Text = i, Value = Convert.ToInt32((MyLunchBox.Models.DishType)Enum.Parse(typeof(MyLunchBox.Models.DishType), i)).ToString() }); 
+}
+<script>
+
+    $(function () {
+		var hash = window.location.hash;
+		if (hash != '') {
+			$('[href="'+hash+'"]').tab('show');
+		}
+		$('a[data-toggle="tab"]').on('shown', function (e){
+			window.location.hash = $(this).attr('href');
+		});
+		
+        $('.addDish').click(function () {
+            $.post('/Admin/AddDish',
+                  {   'dishName': $('#newDishName').val(),
+                      'dishTypeId': $('#newDishTypeId').val(),
+                      'imageName': $('#newImageFileName').val(),
+                      'restaurantId': $('#RestaurantId').val(),
+                      'price': $('#newDishPrice').val()
+                  },
+                function (data) {
+					alert(data.result);
+					window.location.reload();
+                });
+        });
+    });
+</script>
+<div class="row">
+<h2>Details</h2>
+    
+    <div class="span3 well" style="padding:20px 0;">
+    <ul class="nav nav-list">
+	    <li class="nav-header">Admin</li>
+        <li> @Html.ActionLink("View All Orders", "ViewAllOrders", "Admin")</li>
+	    <li class="active">@Html.ActionLink("Manage Restaurants", "ManageRestaurants", "Admin")</li>
+        <li>@Html.ActionLink("Manage Universities", "ManageUniversities", "Admin")</li>
+	    <li>@Html.ActionLink("Manage DeliveryHours", "ManageDeliveryHours", "Admin")</li>
+	    <li>@Html.ActionLink("LuckyDraw", "LuckyDraw", "Admin")</li>
+        <li>@Html.ActionLink("Manage Votes", "ManageVotes", "Admin")</li>
+    </ul>
+    </div>
+    <div class="span9">
+    @if (ViewBag.UpdateStatus != null)
+    {
+        <div class="alert">
+            <a class="close" data-dismiss="alert" href="#">x</a>@ViewBag.UpdateStatus
+        </div> 
+    }
+    @using (Html.BeginForm()) {
+    
+    <p class="clearfix">
+    	@Html.ActionLink("Back to List", "ManageRestaurants", new object{}, new {@class="btn pull-left"})
+        <input type="submit" value="Save Changes" class="btn btn-info pull-right btn-primary" />
+    </p>
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="#restaurantSetting" data-toggle="tab">Settings</a></li>
+		<li @if (isNew){ <text> style="display:none" </text>}><a href="#restaurantLunchbox" data-toggle="tab">Lunchboxes</a></li>
+		<li @if (isNew){ <text> style="display:none" </text>}><a href="#restaurantDish" data-toggle="tab">Dishes</a></li>	
+	</ul>
+   
+	<div class="tab-content lightBox form-horizontal">
+		<div class="tab-pane active" id="restaurantSetting">
+	        <fieldset>
+	            @Html.Hidden("RestaurantId")
+	            <legend>Basic Info</legend>
+	            <div class="control-group">
+		            <label class="control-label">Name</label>
+		            <div class="controls">@Html.TextBoxFor( m=>m.RestaurantName )@Html.ValidationMessageFor(m=>m.RestaurantName)</div>
+	            </div>
+	            <div class="control-group">
+		            <label class="control-label"> University </label>
+		             <div class="controls">@Html.DropDownListFor(m=>m.UniversityId, (List<SelectListItem>)ViewData["Universities"]) </div>
+	            </div>
+	            <div class="control-group">
+		            <label class="control-label"> Status </label>
+		             <div class="controls">@Html.DropDownListFor(model => model.RestaurantStatus, @Model.RestaurantStatusLevels) </div>
+	            </div>
+	            <div class="control-group">
+		            <label class="control-label">Short Description</label>
+		            <div class="controls">@Html.TextAreaFor(model=>model.RestaurantShortDescription)@Html.ValidationMessageFor(m=>m.RestaurantShortDescription)</div>
+	            </div>
+	            <div class="control-group">
+		            <label class="control-label">Detailed Description</label>
+		            <div class="controls">@Html.TextAreaFor(model => model.RestaurantDetailedDescription, new { @rows = 10 })@Html.ValidationMessageFor(m => m.RestaurantDetailedDescription)</div>
+	            </div>
+	        </fieldset>
+	        <fieldset> 
+	            <legend>Hours</legend>
+	            <div class="control-group">      
+	            	<label class="control-label">Hours 1</label>
+	            	<div class="controls">@Html.TextBox("RestaurantHoursFrom", Model.RestaurantHoursFrom.HasValue? Model.RestaurantHoursFrom.Value.ToString("HH:mm"):"", new { @class = "input-mini" }) @Html.ValidationMessageFor(m => m.RestaurantHoursFrom) ~
+	                 @Html.TextBox("RestaurantHoursTo", Model.RestaurantHoursTo.HasValue?Model.RestaurantHoursTo.Value.ToString("HH:mm"):"", new { @class = "input-mini" })@Html.ValidationMessageFor(m => m.RestaurantHoursTo)</div>
+	            </div>
+	            
+	            <div class="control-group"> 
+	                <label class="control-label">Hours 2</label>
+	                <div class="controls">@Html.TextBox("RestaurantHours2From", Model.RestaurantHours2From.HasValue ? Model.RestaurantHours2From.Value.ToString("HH:mm") : "", new { @class = "input-mini" }) 
+	                ~
+	                @Html.TextBox("RestaurantHours2To", Model.RestaurantHours2To.HasValue ? Model.RestaurantHours2To.Value.ToString("HH:mm") : "", new { @class = "input-mini" }) </div>
+	            </div>
+	        </fieldset>	        
+	        <fieldset>
+	            <legend>Location</legend>
+	            <div class="control-group">
+	            <label class="control-label">Location Name</label>
+	            <div class="controls">@Html.TextBox("Location_LocationName")@Html.ValidationMessage("Location_LocationName")</div>
+	            </div>
+	            <div class="control-group">
+	            <label class="control-label">Address1</label>
+	            <div class="controls">@Html.TextBox("Location_Address1")@Html.ValidationMessage("Location_Address1")</div>
+	            </div>
+	            <div class="control-group">
+	            <label class="control-label">Address2</label>
+	            <div class="controls">@Html.TextBox("Location_Address2")</div>
+	            </div>
+	            <div class="control-group">
+	            <label class="control-label">City</label>
+	            <div class="controls">@Html.TextBox("Location_City")@Html.ValidationMessage("Location_City")</div>
+	            </div>
+	            <div class="control-group">
+	            <label class="control-label">State</label>
+	            <div class="controls">@Html.DropDownList("Location_StateOrProvince", MyLunchBox.Models.StatesRepository.Instance.StatesList) @Html.ValidationMessage("Location_StateOrProvince")</div>
+	            </div>
+	            <div class="control-group">
+	            <label class="control-label">Zipcode</label>
+	            <div class="controls">@Html.TextBox("Location_ZipCode")@Html.ValidationMessage("Location_ZipCode")</div>
+	            </div>
+	        </fieldset>
+		</div>
+		<div class="tab-pane" id="restaurantLunchbox" >
+	        <fieldset> 
+	            <legend>Lunch Boxes</legend>
+	            <table class="table table-hover well table-condensed">
+	                <tr><th>Lunchbox Name</th> <th>Price</th> <th>Num of Entrees</th><th>Availibility</th><th></th></tr>
+	                @foreach (var bentoBox in Model.BentoBoxes)
+                    {
+	                <tr data-id="@bentoBox.BentoBoxId" class="lunchboxTr">
+	                    <td>@Html.HiddenFor(model => bentoBox.BentoBoxId) @Html.TextBoxFor(model => bentoBox.BentoBoxName, new { @class = "input-large" })</td>
+	                    <td><div class="input-prepend"><span class="add-on">$</span>@Html.TextBoxFor(model => bentoBox.UnitPrice, new { @value = bentoBox.UnitPrice.ToString("0.##"), @class = "input-mini" })</div></td>
+	                    <td>@Html.DisplayFor(model => bentoBox.NumOfEntree, new { @class = "input-mini" })</td>
+	                    <td>@Html.DropDownListFor(model => bentoBox.BentoBoxStatusId, bentoBox.BentoBoxStatusLevels, new { @class = "span2" })</td>
+	                </tr>
+                    }
+	            </table>
+	        </fieldset>
+		</div>
+        
+		<div class="tab-pane" id="restaurantDish">
+        <fieldset>        
+        <legend>Add a Dish</legend>
+        <div class="control-group">
+        	<label class="control-label">Dish Name</label>
+        	<div class="controls">
+	        	@Html.TextBox("newDishName", "")
+        	</div>
+        </div>
+        <div class="control-group">
+        	<label class="control-label">Dish Type</label>
+        	<div class="controls">
+                
+                @Html.DropDownList("newDishTypeId", dishTypeList)
+        	</div>
+        </div>
+        <div class="control-group">
+        	<label class="control-label">Image File Name</label>
+        	<div class="controls">
+	        	@Html.TextBox("newImageFileName", "")<div class="help-inline">请把图片上传到 Content/Images/Dishes 目录下</div>
+        	</div>
+        </div>
+        <div class="control-group">
+        	<label class="control-label">Price</label>
+        	<div class="controls">
+	        	<div class="input-prepend" style="margin-bottom:10px;"><span class="add-on">$</span>@Html.TextBox("newDishPrice", "0.00", new {@class="input-mini"}) /></div>
+        	</div>
+        </div>
+        <div class="clearfix pull-right"><a href="javascript:void(0)" class="btn btn-big addDish" >Add</a></div>
+        
+        </fieldset>
+        <fieldset> 
+          <h3>Dishes</h3>
+            <ul class="courseList clearfix">
+            @foreach (var dish in Model.Dishes)
+            {
+                <li class="course" data-id="@dish.DishId"> 
+                <p>
+                    @Html.TextBox("dish.DishName", dish.DishName, new { @class="span2" })
+                </p>
+                <p>@Enum.Parse(typeof(MyLunchBox.Models.DishType),dish.DishTypeId.ToString()).ToString()</p>
+                 <p class="input-prepend" style="margin-bottom:10px;"><span class="add-on">$</span>@Html.TextBoxFor(model=> dish.DishIncrementalPrice, new {@class="input-mini"})
+                  </p>
+                 
+                 <img src="../../@dish.DishImageUrl" /> 
+                 <p class="input-prepend" style="margin-bottom:10px">
+                    @Html.TextBox("dish.DishImageUrl", dish.DishImageUrl.Substring(dish.DishImageUrl.LastIndexOf("/")+1), new { @class = "input-mini" })
+                 </p>
+                 @Html.HiddenFor(model => dish.DishId)
+                <p>@Html.DropDownListFor(model => dish, dish.DishStatusLevels, new { @class = "span2" })</p>
+               
+                </li>
+            }
+            </ul>
+        </fieldset>
+		</div>
+	</div>
+    <div class="clearfix">
+    @Html.ActionLink("Back to List", "ManageRestaurants", new object { }, new { @class = "btn pull-left" })
+        <input type="submit" value="Save Changes" class="btn btn-info pull-right btn-primary btn-big" />
+    </div>
+    }
+
+</div>
+</div>

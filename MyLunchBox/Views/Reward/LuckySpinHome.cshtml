@@ -1,0 +1,62 @@
+﻿@model IEnumerable<MyLunchBox.Models.Reward>
+<p class="desc">@if (Model.Count() > 0)
+                {   @Model.First().WeekSpan }
+                <br>(<a href="/Home/About#Faq">How to get Award Point?</a>)</p>           
+<div class="home-lucky-content">
+<table>
+	<thead><tr><th width="60%">Name</th><th width="40%">Award</th></tr></thead>
+	<tbody>
+        @for (int i = 0; i < 6 && i < Model.Count(); i++ )
+        {
+            var rewardItem = Model.ElementAt(i);
+            <tr>
+                <td>@if (!string.IsNullOrEmpty(rewardItem.UserName))
+                    {
+                        @rewardItem.UserName.Replace(rewardItem.UserName.Substring(2, rewardItem.UserName.IndexOf("@") - 2), "****")
+                    }</td>
+                <td>@Convert.ToInt32(rewardItem.Amount)</td>
+            </tr>
+        }
+	</tbody>
+	<tfoot><tr><td colspan="2"><a href="#lucky-Modal" role="button" data-toggle="modal">View Full List</a></td></tr></tfoot>
+</table>
+	        			
+</div>
+<div id="lucky-Modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="lucky-ModalLabel" aria-hidden="true">
+    <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h2 id="lucky-ModalLabel">Lucky Draw</h2>
+    </div>
+    <div class="modal-body">
+    <p class="desc">@if (Model.Count() > 0)
+                {   @Model.First().WeekSpan }
+                <br>(<a href="/Home/About#Faq">How to get Award Point?</a>)</p> 
+    <table class="table">
+	<thead><tr><th >Name</th><th >Award</th><th>University</th></tr></thead>
+	<tbody>
+        @foreach (var rewardItem in Model)
+        {
+            if (Context.User.Identity.Name == rewardItem.UserName)
+            {
+                <tr class="alert">
+                    <td>@rewardItem.UserName</td>
+                    <td>@Convert.ToInt32(rewardItem.Amount)</td>
+                    <td>@rewardItem.User.UserDetails.Single(i => i.UserId == rewardItem.UserId).University.UniversityName</td>
+                </tr>
+            }
+            else {
+                <tr>
+                    <td>@rewardItem.UserName.Replace(rewardItem.UserName.Substring(2, rewardItem.UserName.IndexOf("@") - 2), "****")</td>
+                    <td>@Convert.ToInt32(rewardItem.Amount)</td>
+                    <td>@rewardItem.User.UserDetails.Single(i => i.UserId == rewardItem.UserId).University.UniversityName</td>
+                </tr>
+            }
+        }
+	</tbody>
+</table>
+    </div>
+    <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <a class="btn btn-primary" href="/Member/MyRewards/">My Rewards</a>
+    </div>
+</div>  

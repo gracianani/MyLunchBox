@@ -1,0 +1,135 @@
+﻿@model MyLunchBox.Models.LuckySpinViewModel
+
+@{
+    ViewBag.Title = "Lucky Draw";
+}
+<script>
+$(function(){
+	
+	$('.drawItem').mouseenter(function(){
+		$this = $(this);
+		$this.addClass('drawItem-over');
+		
+	}).mouseleave(function(){
+		$this = $(this);
+		$this.removeClass('drawItem-over');
+	});
+	
+	$('.drawItem-award').click(function(){
+		$this = $(this);
+		$this.parent().parent().parent().parent().addClass('selected');
+		var email = $this.attr('data-email');
+		var desc = 'Lucky Draw ' + $('#drawIssue').text();
+		
+		$('#rewardEmail').val(email);
+		$('#rewardDesc').val(desc);
+		$('#discount').focus();
+		
+	});
+	$('.randomSort').click(function() {
+		var drawUl = $(this).parent().next('ul');
+		var drawItemList = drawUl.find('.drawItem');
+		var length = drawItemList.size();
+
+		for ( var i = 0; i < length; i++) {
+			var pointer = Math.floor(Math.random() * (length - i - 1) + i + 1);
+			//swap [i] and [pointer]
+			var $tempItem = $(drawItemList[i]).clone();
+			$(drawItemList[i]).html( $(drawItemList[pointer]).html() );
+			$(drawItemList[pointer]).html($tempItem.html());
+		}
+	});
+	
+});
+
+</script>
+<div class="row">
+    <div class="span3 well" style="padding:20px 0;">
+        <ul class="nav nav-list">
+	        <li class="nav-header">Admin</li>
+            <li>@Html.ActionLink("Today's Orders", "ViewAllOrders", "Admin")</li>
+	        <li>@Html.ActionLink("Manage Restaurants", "ManageRestaurants", "Admin")</li>
+	        <li>@Html.ActionLink("Manage DeliveryHours", "ManageDeliveryHours", "Admin")</li>
+	        <li class="active">@Html.ActionLink("LuckyDraw", "LuckyDraw", "Admin")</li>
+            <li>@Html.ActionLink("Manage Votes", "ManageVotes", "Admin")</li>
+        </ul>
+    </div>
+
+    <div class="span9">
+	<ul class="nav nav-tabs">
+		<li class="active"> <a href="#draw" data-toggle="tab">Create Reward</a></li>
+		<li><a href="#drawHistory" data-toggle="tab">History</a></li>
+	</ul>
+   
+	<div class="tab-content lightBox form-horizontal">
+		<div class="tab-pane active" id="draw">
+        @if (!string.IsNullOrEmpty(ViewBag.CreateStatus))
+        {
+        <ul id="warningMsg" class="alert alert-block alert-success" style="">
+         <li>@ViewBag.CreateStatus</li>        
+        </ul>
+        }
+        @using (Html.BeginForm("CreateReward", "Admin", FormMethod.Get, new { @class = "form-inline" }))
+        {
+            <p>
+            @Html.Label("rewardEmail", "Email : ")
+            @Html.TextBox("rewardEmail", "", new { @class = "input-large" }) 
+            </p>
+            <p>
+            @Html.Label("discount", "Points : ")
+            <input name="discount" id="discount" type="text" class="input-small" />
+            </p>
+            <p>
+            <label>Description</label>
+            <input name="rewardDesc" id="rewardDesc" type="text" class="input-xlarge" /> 请尽量填写描述，便于日后查找管理
+            </p>
+            <input type="submit" value="Create Reward" class="btn btn-primary" />
+                       
+        }
+        <hr />
+            <h3>Lucky Draw</h3>
+            @foreach (var university in Model.Universities)
+            {
+              <p class="clearfix">
+                  <span class="pull-left" id="drawIssue"><strong>@university.UniversityName</strong>
+                  @DateTime.Now.Date.AddDays(-(int)DateTime.Now.Date.DayOfWeek - 7).ToString("yyyy-MM-dd") - @DateTime.Now.Date.AddDays(-(int)DateTime.Now.Date.DayOfWeek).ToString("yyyy-MM-dd") </span> 
+                  <a class="btn pull-right randomSort">Random</a>
+              </p>
+                <ul class="draws clearfix">          
+                @foreach (var candidate in Model.Candidates.Where(i => i.DeliveryLocation.University_Delivery.First().UniversityId == @university.UniversityId))
+                {
+                    <li class="drawItem">
+                    <div class="drawItem-inner">
+                        <div class="drawItem-name">  @candidate.ReceiverFirstName @candidate.ReceiverLastName</div>
+                        <div class="drawItem-hide">
+                            <div class="drawItem-email"><a href="mailto:@candidate.PayerEmail">@candidate.PayerEmail</a></div>
+                            <div class="drawItem-price">$@candidate.Gross</div>
+                            <div class="drawItem-since">Customer Since @candidate.Payer.CreationDate.ToString("yyyy-MM-dd")</div>
+                            <div class="drawItem-id">UserId: @candidate.UserId</div>
+                            <p><a class="btn drawItem-award" data-id="@candidate.UserId" data-email="@candidate.PayerEmail">Select</a></p>
+                        </div>
+                    </div>
+                    </li>
+                }
+                </ul>
+                <hr />
+            }
+        </div>
+        <div class="tab-pane" id="drawHistory">
+        <table class="table table-striped">
+            <tr><th> ID </th> <th> Member</th> <th>Points</th> <th>Created At </th> <th>Description</th> </tr>
+            @foreach (var rewardItem in Model.Rewards)
+            {
+                <tr>
+                    <td> @rewardItem.RewardId</td>
+                    <td> Yaqi Zhao <br /><a href="mailto:@rewardItem.UserName">@rewardItem.UserName</a></td>
+                    <td> @rewardItem.Amount</td>
+                    <td> @rewardItem.RewardCreatedAt.ToString("MMM dd, yyyy")</td>
+                    <td> @rewardItem.RewardDescription</td>
+                </tr>
+            }
+        </table>
+        </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+﻿@model IEnumerable<MyLunchBox.Models.Dish>
+
+<div class="home-menu-content">
+	<table>
+		<tbody>
+        @foreach (var dish in Model)
+        {
+            if(dish.DishTypeId == (int)MyLunchBox.Models.DishType.MainCourse) 
+            {
+                <tr><td> @dish.DishName</td><td><input type="radio"></td> </tr>
+            }
+        }
+		<tr><td colspan="2"><a href="#">Next Vote</a> <btn class="btn pull-right">Submit</btn></td></tr>
+	    </tbody>
+    </table>
+</div>

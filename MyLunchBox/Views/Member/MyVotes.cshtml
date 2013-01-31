@@ -1,0 +1,135 @@
+﻿@model MyLunchBox.Models.Voting
+
+@{
+    ViewBag.Title = "MyVotes";
+    var restaurants = (IEnumerable<SelectListItem>)ViewData["restaurants"];
+    var restaurantVotings = (Dictionary<int, DateTime>)ViewData["votedOn"];
+    var restaurantDishes = (Dictionary<int, List<MyLunchBox.Models.Dish>>)ViewData["dishes"];
+}
+
+<div class="row">
+    <div class="span3 well" style="padding:20px 0">
+    <ul class="nav nav-list">
+	    <li class="nav-header">My Account</li>
+	    <li>@Html.ActionLink("Account Settings", "MembershipDetails", "Member")</li>
+	    <li>@Html.ActionLink("Orders", "MyLunchBoxes", "Member")</li>
+	    <li>@Html.ActionLink("Reward Points", "MyRewards", "Member")</li>
+	    <li class="active">@Html.ActionLink("Voting", "MyVotes", "Member")</li>
+    </ul>
+    </div>
+
+    <div class="span9">
+        <ul class="nav nav-tabs nav-tabs-small" id="fillLunchboxTab">
+            @foreach (var restaurant in restaurants)
+            {
+                <li class="@if (restaurant.Value == restaurants.First().Value)
+                           {  <text>active</text> }"><a href="#restaurant-@restaurant.Value" data-toggle="tab">@restaurant.Text</a> </li>
+            }
+			</ul>
+        <div class="tab-content lightBox">
+           @foreach (var dishes in restaurantDishes)
+           {
+                <div class="tab-pane @if (dishes.Key == Convert.ToInt32(restaurants.First().Value))
+                                     {  <text>active</text> }" id="restaurant-@dishes.Key">
+                @using (Html.BeginForm())
+                {
+                	<h3>Vote for Next Week's Menu</h3>
+                    DateTime? votedOn = null;
+                    if (restaurantVotings.ContainsKey(dishes.Key))
+                    {
+                        votedOn = ((Dictionary<int, DateTime>)ViewData["votedOn"])[dishes.Key];
+                    }
+                    var votingStats = (Dictionary<int, string>)ViewData["votingStats"];
+                    var orderStats = (Dictionary<int, int>)ViewData["orderStats"];
+                    if (votedOn.HasValue)
+                    {  <ul id="warningMsg" class="alert alert-block alert-success" style=""><li>@string.Format("You have voted on {0:MMM dd, yyyy hh:mm:ss}", votedOn)</li>
+         <li>You've got <em>30</em> reward points for this vote!</li>        
+                    </ul>
+                    }
+                    <p>排名第一的将会出现在下周的菜单中。</p>
+                    <table class="table table-striped">
+                        @foreach (var dish in @dishes.Value.Where(i=>i.IsOnVoting == true))
+                        {
+                        if (dish.DishTypeId == (int)MyLunchBox.Models.DishType.MainCourse)
+                        {
+                            <tr>
+                                <td class="voteCheckbox"><input type="checkbox" name="@dish.DishId" value="@dish.DishId" id="dish-@dish.DishId" 
+                                @if (((Dictionary<int, List<MyLunchBox.Models.Voting>>)ViewData["votes"])[@dishes.Key].Count(j => j.DishId == dish.DishId) > 0)
+                                {<text>checked=checked</text>} 
+                                @if (votedOn.HasValue){ <text>disabled="disabled"</text>} />
+                                </td>
+                                <td class="voteImg"><img src="/@dish.DishImageUrl" width="40px" /></td>
+                                <td class="voteText">@dish.DishName</td>
+                                <td class="voteStat">
+                                @if (votedOn.HasValue)
+                                {
+                                    if (votingStats.ContainsKey(@dish.DishId))
+                                    {
+                                    <div class="progress progress-success progress-striped" >
+                                      <div class="bar" style="width:@votingStats[@dish.DishId]%"></div><span class="voteStatText">@votingStats[@dish.DishId]%</span>
+                                    </div>
+                                        
+                                    }
+                                }
+                                </td>
+                            </tr>
+                        }
+                             
+                        }
+                    </table>
+                    <input type="submit" value="Vote" class="btn" @if (votedOn.HasValue)
+                                                                  { <text>style="display:none;"</text>} />   
+                	
+                	<hr />
+                	<h3>Current Menu</h3>
+                    <p>The least popular dish will be removed from next week's menu!</p>
+                	<table class="table table-striped current-menu" >
+                		<tr>
+                		<th class="voteRank">
+                		Rank
+                		</th>
+                		<th>
+                		</th>
+                		<th>
+                		Dishes
+                		</th>
+                		<th>
+                		Popularity
+                		</th>
+                		</tr>
+                        @{var rank = 1;}
+                        @foreach( var dishId in @orderStats.Keys)
+                        {
+                            if (votedOn.HasValue)
+                            {
+                                if (dishes.Value.Count(i=>i.DishId == dishId) > 0 )
+                                {
+                                        
+                                    var dish = dishes.Value.Single(i=>i.DishId == dishId);
+                                    if (dish.DishTypeId == (int)MyLunchBox.Models.DishType.MainCourse)
+                                    {
+                                    <tr>
+                                    <td class="voteRank">No. <em>@rank</em>
+                                    </td>
+                                    <td class="voteImg"><img src="/@dish.DishImageUrl" width="40px" /></td>
+                                    <td class="voteText">@dish.DishName</td>
+                                    <td class="voteStat">
+                                        <div class="progress progress-success progress-striped" >
+                                            <div class="bar" style="width:@orderStats[@dish.DishId]%"></div><span class="voteStatText">@orderStats[@dish.DishId]</span>
+                                        </div>
+                                    </td>
+                                    </tr>
+                                        rank += 1;
+                                    }
+                                }
+                            }
+                        }
+                    </table>
+                }
+                
+                </div>
+            }
+            
+		</div>
+    </div>
+</div>

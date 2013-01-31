@@ -1,0 +1,128 @@
+﻿@model MyLunchBox.Models.UniversitiesViewModel
+
+@{
+    ViewBag.Title = "Manage Universities";
+    
+}
+<div class="row">
+
+<div class="span3 well" style="padding:20px 0;">
+<ul class="nav nav-list">
+	<li class="nav-header">Admin</li>
+    <li>@Html.ActionLink("Today's Orders", "ViewAllOrders", "Admin")</li>
+	<li>@Html.ActionLink("Manage Restaurants", "ManageRestaurants", "Admin")</li>
+    <li class="active">@Html.ActionLink("Manage Universities", "ManageUniversities", "Admin")</li>
+	<li>@Html.ActionLink("Manage DeliveryHours", "ManageDeliveryHours", "Admin")</li>
+	<li>@Html.ActionLink("LuckyDraw", "LuckyDraw", "Admin")</li>
+    <li>@Html.ActionLink("Manage Votes", "ManageVotes", "Admin")</li>
+</ul>
+</div>
+<div class="span9">
+<div class="lightBox">
+<h3>Manage Universities</h3>
+    <table class="table table-striped ">
+        <tr><th>University Name</th><th>Address</th><th>Restaurants</th><th>Deliveries</th><th>Action</th></tr>
+        @foreach (var university in Model.Universities)
+        {
+            <tr>
+                <td>@university.UniversityName</td>
+                <td>
+                @university.Location.Address1, 
+                @university.Location.Address2, 
+                @university.Location.City, 
+                @university.Location.StateOrProvince, 
+                @university.Location.ZipCode 
+                </td>
+                <td>
+                    <ul class="locationList">
+                    @foreach (var restaurant in university.Restaurants)
+                    {
+                        <li>@restaurant.RestaurantName</li>
+                    }
+                    </ul>
+                </td>
+                <td>
+                    <ul class="locationList">
+                    @foreach (var delivery in university.University_Delivery)
+                    {
+                        <li>@delivery.Location.LocationName, @delivery.DeliveryTime.ToString("HH:mm")</li>
+                    }
+                    </ul>
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "DeleteUniversity", new { @universityId = @university.UniversityId }, new { @class = "btn", @onclick="return confirm(' Are you sure you wish to delete this university?' )" } )
+                </td>
+            </tr>
+        }
+    </table>
+
+    <hr />
+               
+        <div class="form-horizontal">
+            @using (Html.BeginForm())
+            {
+                <fieldset>
+                <legend> Create New University </legend>
+                <div class="control-group">
+                    <label class="control-label" for="universityName">University Name</label>
+                    <div class="controls">
+                        @Html.TextBoxFor(m=>m.UniversityName)
+                        @Html.ValidationMessageFor(m => m.UniversityName)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="locationName">Location Name</label>
+                    <div class="controls">
+                        @Html.TextBoxFor(m=>m.LocationName)
+                        @Html.ValidationMessageFor(m => m.LocationName)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="address1">Address1</label>
+                    <div class="controls">
+                        @Html.TextBoxFor(m=>m.Address1)
+                        @Html.ValidationMessageFor(m => m.Address1)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="address2">Address2</label>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.Address2)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="city">City</label>
+                    <div class="controls">
+                        @Html.TextBoxFor(m => m.City)
+                        @Html.ValidationMessageFor(m => m.City)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="state">State</label>
+                    <div class="controls">
+                        @Html.DropDownListFor(m=>m.State,  @MyLunchBox.Models.StatesRepository.Instance.StatesList)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="zipCode">Zip Code</label>
+                    <div class="controls">
+                        @Html.TextBoxFor(m=>m.ZipCode)
+                        @Html.ValidationMessageFor(m => m.ZipCode)
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="phoneNumber">Phone Number</label>
+                    <div class="controls">
+                        @Html.TextBoxFor(m=>m.PhoneNumber)
+                    </div>
+                </div>
+
+                </fieldset>
+                <p class="clearfix">
+                <input type="submit" value="Create" class="btn btn-primary btn-big pull-right" />
+                </p>
+            }
+        </div>
+</div>
+</div>
+</div>

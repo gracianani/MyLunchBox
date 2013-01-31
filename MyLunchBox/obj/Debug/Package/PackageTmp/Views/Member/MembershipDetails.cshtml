@@ -1,0 +1,139 @@
+﻿@model MyLunchBox.Models.UserDetailsViewModel
+
+@{
+    ViewBag.Title = "MembershipDetails";
+}
+
+<div class="row">
+    <div class="span3 well" style="padding:20px 0;">
+    <ul class="nav nav-list">
+	    <li class="nav-header">My Account</li>
+	    <li class="active">@Html.ActionLink("Account Settings", "MembershipDetails", "Member")</li>
+	    <li>@Html.ActionLink("Orders", "MyLunchBoxes", "Member")</li>
+	    <li>@Html.ActionLink("Reward Points", "MyRewards", "Member")</li>
+	    <li>@Html.ActionLink("Voting", "MyVotes", "Member")</li>
+    </ul>
+    </div>
+    <div class="span9">
+    
+    <div class="lightBox form-horizontal">
+    @if (!string.IsNullOrEmpty((string)ViewData["UpdateStatus"]))
+    {
+    <ul class="alert alert-block alert-success" ><li>@ViewBag.UpdateStatus</li></ul>
+    }
+    @using (Html.BeginForm())
+    {
+    <fieldset>
+    <legend>Basic Info</legend>
+    <div class="control-group">
+	    <label class="control-label" for="email">Email:</label>
+	    <div class="controls controlsText">
+	    	@User.Identity.Name
+	    </div>
+    </div>
+    
+    <div class="control-group">
+	    <label class="control-label" for="firstName">First Name:</label>
+	    <div class="controls">
+            @Html.EditorFor(m => m.FirstName, new { @class = "text-box single-line" })
+	    </div>
+    </div>
+    
+    <div class="control-group">
+	    <label class="control-label" for="lastName">Last Name:</label>
+	    <div class="controls">
+	    	@Html.EditorFor(m => m.LastName, new { @class = "text-box single-line" })
+	    </div>
+    </div>
+    
+    <div class="control-group">
+	    <label class="control-label" for="phone">Phone:</label>
+	    <div class="controls">
+	    	@Html.EditorFor(m => m.PhoneNumber, new { @class = "text-box single-line" })
+            @Html.ValidationMessageFor(m=>m.PhoneNumber)
+	    </div>
+    </div>
+    
+    </fieldset>
+    <legend>Delivery Info</legend>
+    <div class="control-group">
+	    <label class="control-label" for="UniversityId">University:</label>
+	    <div class="controls">
+	    	@Html.DropDownListFor(m => m.UniversityId, @Model.Universities)
+	    </div>
+    </div>
+    <div class="control-group">
+	    <label class="control-label" for="UniversityDeliveryId">Location and Time:</label>
+	    <div class="controls">
+	    	@Html.DropDownListFor(m => m.UniversityDeliveryId, @Model.DeliveryLocations)
+	    </div>
+    </div>
+    <fieldset style="display:none">
+    <legend>Contact Info</legend>
+
+    <div class="control-group">
+	    <label class="control-label" for="qq">QQ:</label>
+	    <div class="controls">
+	    	<input name="qq" id="qq" type="text" value="" />
+	    </div>
+    </div>
+    <div class="control-group">
+	    <label class="control-label" for="msn">MSN:</label>
+	    <div class="controls">
+	    	<input name="msn" id="msn" type="text" value="" />
+	    </div>
+    </div>    
+    </fieldset>
+    <fieldset id="billingInfo" style="display: block;">
+            <legend>Address</legend>
+            <div class="control-group">
+            <label for="billingFirstName" class="control-label">First Name</label>
+            <div class="controls">@Html.EditorFor(m => m.LocationFirstName, new { @class = "text-box single-line" })
+            </div>
+            </div>
+            <div class="control-group">
+            <label for="billingLastName" class="control-label">Last Name</label>
+            <div class="controls">@Html.EditorFor(m => m.LocationLastName, new { @class = "text-box single-line" })</div>
+            </div>
+            <div class="control-group">
+            <label for="billingAddress1" class="control-label">Address Line1</label>
+            <div class="controls">@Html.EditorFor(m => m.Address1, new { @class = "text-box single-line" }) </div>
+            </div>
+            <div class="control-group">
+            <label for="billingAddress2" class="control-label">Address Line2</label>
+            <div class="controls">@Html.EditorFor(m=>m.Address2, new {@class="text-box single-line"}) </div>
+            </div>
+            <div class="control-group">
+            <label for="billingCity" class="control-label">City</label>
+            <div class="controls">@Html.EditorFor(m=>m.City, new {@class="text-box single-line"})</div>
+            </div>
+            <div class="control-group">
+            <label for="billingState" class="control-label">State</label>
+            <div class="controls">@Html.DropDownListFor(m=>m.State, @Model.States)</div>
+            </div>
+            <div class="control-group">
+            <label for="billingZipCode" class="control-label">ZipCode</label>
+            <div class="controls">
+                @Html.EditorFor(m=>m.ZipCode, new {@class="text-box single-line"})
+                @Html.ValidationMessageFor(m=>m.ZipCode)
+            </div>
+            </div>
+     </fieldset>
+    <div class="clearfix">
+    <input type="submit" class="btn btn-primary btn-big pull-right" value="Save Changes" />
+    </div>
+    }
+    </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $("#UniversityId").change(function () {
+            $.get("/Member/GetDeliveryLocations", { "universityId": $(this).val() }, function (data) {
+                console.log("...");
+                $("#UniversityDeliveryId").html(data)
+            });
+        });
+    });
+</script>

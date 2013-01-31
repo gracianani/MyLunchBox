@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<script>
+$(function(){
+	$('.carousel').carousel();
+});
+</script>
+<div id="homeSlides" class="carousel slide">
+    <div class="carousel-inner">
+        	<div class="active item"><a href="/Member/MyVotes/"><img class="slideimg" src="/content/images/slides/slide2.jpg" /></a></div>
+        	<div class="item">
+            <img class="slideimg" src="/content/images/slides/slide3.jpg" />
+            <div class="carousel-caption">
+                      <h4><em>Home Impression Chinese Food</em></h4>
+                      <p>The best quality and convenient Chinese food delivery.</p>
+                      <p class="clearfix"><a href="/CustomBentoBox/ChooseRestaurant/" class="btn btn-big btn-primary pull-right">Create a Lunchbox</a></p>
+            </div>
+            </div>
+            <div class="item"><a href="/CustomBentoBox/ChooseRestaurant/"><img class="slideimg" src="/content/images/slides/slide1.jpg" /></a></div>
+            <div class="item">
+            <img class="slideimg" src="/content/images/slides/slide4.jpg" />
+            <div class="carousel-caption">
+                      <h4><em>Contact Us</em></h4>
+                      <p>If you have any suggestion or comment, please contact us. <br />We will reward some points for those outstanding suggestions and comments. Thank you for your support and understanding.</p>
+                      <p class="clearfix"><a href="/Home/About#contact" class="btn btn-primary pull-right btn-big">Contact Us</a></p>
+            </div>
+            </div>
+    </div>
+    <a class="carousel-control left" href="#homeSlides" data-slide="prev">&lsaquo;</a>
+    <a class="carousel-control right" href="#homeSlides" data-slide="next">&rsaquo;</a>
+</div>
+        	
+<div class="row">
+    <div id="home-customer" class="span4">
+        <h2>Announcement</h2>
+        <div class="home-customer-content">
+        Dear Customers: <br />
+        Welcome to <strong>Home Impression Chinese Food.com</strong>!
+We will try our best to provide the best quality and convenient Chinese food delivery expericece for you.    		
+        </div>
+    </div>
+    <div id="home-lucky" class="span4">
+        <h2>Lucky Draw</h2>
+        @{  Html.RenderAction("LuckySpinHome", "Reward"); }
+        
+              
+    </div>
+    <div class="span4">
+        <h2>What's New</h2>
+		<div class="home-menu-content">
+            <div id="whatsnewCarousel" class="carousel slide">
+              <!-- Carousel items -->
+              <div class="carousel-inner">
+                <div class="active item">
+                <p>Element Vitality was designed to help combat some of the symptoms associated with cancer treatment. Our Vitality bars include Cherry Power, Citrus Strength, Datey Delight, and Gentle Ginger.</p>
+                <p><a href="/CustomBentoBox/ChooseRestaurant/" class="btn pull-right">Learn More</a></p>
+                </div>
+                <div class="item">
+                <h3>Delicious Cookie!</h3>
+                <center><img src="/content/images/dishes/cookie.png" /></center>
+                <a href="/CustomBentoBox/ChooseRestaurant/" class="btn pull-right">Order Now!</a>
+                </div>
+                <div class="item">
+                <h3>Kung Pao Chicken!</h3>
+                <a href="/CustomBentoBox/ChooseRestaurant/"><img src="/content/images/dishes/kpc.jpg" /></a>
+                </div>
+              </div>
+              <!-- Carousel nav -->
+              <a class="carousel-control left" href="#whatsnewCarousel" data-slide="prev">&lsaquo;</a>
+              <a class="carousel-control right" href="#whatsnewCarousel" data-slide="next">&rsaquo;</a>
+            </div>
+        </div>
+        
+    </div>
+</div>

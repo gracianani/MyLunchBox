@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="8e9c3ca3-f7de-48af-84c2-36071d98feb8" name="yaqiZhao@YAQIZHAO-PC 2013-01-21 21:18:20" runUser="yaqiZhao-PC\yaqiZhao" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Local" id="6e85fe15-3410-4b79-bbb0-bb465eb8e417">
+    <Description>These are default test settings for a local test run.</Description>
+    <Deployment enabled="false" runDeploymentRoot="yaqiZhao_YAQIZHAO-PC 2013-01-21 21_18_20">
+      <DeploymentItem filename="C:\Users\yaqiZhao\Documents\Visual Studio 2010\Projects\MyLunchBox\MyLunchBox\bin\MyLunchBox.dll" />
+    </Deployment>
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2013-01-21T21:18:20.7108122-06:00" queuing="2013-01-21T21:18:22.0008860-06:00" start="2013-01-21T21:18:22.1128924-06:00" finish="2013-01-21T21:19:31.4638591-06:00" />
+  <ResultSummary outcome="Error">
+    <Counters total="1" executed="1" error="0" failed="0" timeout="0" aborted="1" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" passed="0" completed="0" inProgress="0" pending="0" />
+    <RunInfos>
+      <RunInfo computerName="YAQIZHAO-PC" outcome="Error" timestamp="2013-01-21T21:19:31.4628590-06:00">
+        <Text>Test host process exited unexpectedly.</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="CanSendOrderConfirmationMail" storage="c:\users\yaqizhao\documents\visual studio 2010\projects\mylunchbox\mylunchboxtest\bin\debug\mylunchboxtest.dll" id="47dbd752-c940-dcc3-b2cf-ce5acc3709f1">
+      <Execution id="4736f714-2691-44a4-b7ad-71329b0e4b1e" />
+      <TestMethod codeBase="C:/Users/yaqiZhao/Documents/Visual Studio 2010/Projects/MyLunchBox/MyLunchBoxTest/bin/Debug/MyLunchBoxTest.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="MyLunchBoxTest.UnitTest1, MyLunchBoxTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="CanSendOrderConfirmationMail" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="47dbd752-c940-dcc3-b2cf-ce5acc3709f1" executionId="4736f714-2691-44a4-b7ad-71329b0e4b1e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="4736f714-2691-44a4-b7ad-71329b0e4b1e" testId="47dbd752-c940-dcc3-b2cf-ce5acc3709f1" testName="CanSendOrderConfirmationMail" computerName="YAQIZHAO-PC" duration="00:01:09.2479608" startTime="2013-01-21T21:18:22.2158983-06:00" endTime="2013-01-21T21:19:31.4638591-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Aborted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4736f714-2691-44a4-b7ad-71329b0e4b1e">
+    </UnitTestResult>
+  </Results>
+</TestRun>

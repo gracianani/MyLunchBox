@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "ManageVotes";
+}
+
+<script>
+$(function(){
+	$('tr').each(function(){
+		if ($(this).find('option:selected').val() == 'True') {
+			$(this).addClass('success');
+		}
+	});
+	$('select').change(function(){
+		if ( $(this).find('option:selected').val() == 'True') {
+			$(this).parent().parent().addClass('success');
+		} else {
+			$(this).parent().parent().removeClass('success');
+		}
+	});
+	
+	var hash = window.location.hash;
+		if (hash != '') {
+			$('[href="'+hash+'"]').tab('show');
+		}
+		$('a[data-toggle="tab"]').on('shown', function (e){
+			window.location.hash = $(this).attr('href');
+		});
+});
+</script>
+<div class="row">
+<div class="span3 well" style="padding:20px 0">
+    <ul class="nav nav-list">
+	    <li class="nav-header">Admin</li>
+        <li>@Html.ActionLink("Today's Orders", "ViewAllOrders", "Admin")</li>
+	    <li>@Html.ActionLink("Manage Restaurants", "ManageRestaurants", "Admin")</li>
+        <li>@Html.ActionLink("Manage Universities", "ManageUniversities", "Admin")</li>
+	    <li>@Html.ActionLink("Manage DeliveryHours", "ManageDeliveryHours", "Admin")</li>
+	    <li>@Html.ActionLink("LuckyDraw", "LuckyDraw", "Admin")</li>
+        <li class="active">@Html.ActionLink("Manage Votes", "ManageVotes", "Admin")</li>
+    </ul>
+    </div>
+    <div class="span9">
+    <h3>Manage Voting</h3>
+        <ul class="nav nav-tabs nav-tabs-small" id="fillLunchboxTab">
+            @foreach (var restaurant in (IEnumerable<SelectListItem>)ViewData["restaurants"])
+            {
+                <li class="@if (restaurant.Value == "1")
+                           {  <text>active</text> }"><a href="#restaurant-@restaurant.Value" data-toggle="tab">@restaurant.Text</a> </li>
+            }
+        </ul>
+        <div class="tab-content lightBox table-striped">
+            @Html.Display("votingUpdateStatus")
+            @foreach (var dishes in (Dictionary<int, List<MyLunchBox.Models.Dish>>)ViewData["dishes"])
+            {
+                
+                <div class="tab-pane @if (dishes.Key == 1){  <text>active</text> }" id="restaurant-@dishes.Key">
+                @using (Html.BeginForm("", "", FormMethod.Get, new {@class="form-inline", @id="votingForm"}))
+                {
+                    <label> From </label>
+                    @Html.Editor("viewFrom")
+                    <label> To </label>
+                    @Html.Editor("viewTo")
+                    <input type="button" value="Search" class="btn"/>
+                }
+                
+                @using (Html.BeginForm())
+                {
+                    <table class="table">
+                    <tr> <th>Dish Name</th> <th> Availability </th> <th>IsVoting?</th> <th>order#</th> <th>voting#</th></tr>
+                    @{var dishOrderStats = ((Dictionary<int, int>)ViewData["dishOrderStats"]);
+                      var dishVotingStats = ((Dictionary<int, int>)ViewData["votingStats"]);}
+                    @foreach (var dish in @dishes.Value)
+                    {
+                        <tr>
+                            <td><img src="/@dish.DishImageUrl"  width="30px"/> <label for="dish-@dish.DishId" style="display:inline-block">@dish.DishName</label> @Html.Hidden("dish", @dish.DishId)</td>
+                    
+                            <td>
+                            @{var labelClass = "label-warning";}
+                            @if ( dish.DishStatusId == 1) {
+                            labelClass="label-success";
+                            }
+                            <span class="label @labelClass @dish.DishStatusId">@Enum.GetName( typeof(MyLunchBox.Models.DishStatusLevel), @dish.DishStatusId)</span></td>
+                            <td>
+                            @if (dish.DishTypeId == (int)MyLunchBox.Models.DishType.MainCourse)
+                            {
+                            @Html.DropDownListFor(model => dish, dish.DishVotingLevels, new {  @class = "span2" }) 
+                            } else {
+                            <span style="display:none">@Html.DropDownListFor(model => dish, dish.DishVotingLevels, new {  @class = "span2" }) 
+</span>
+                            }
+                            </td>
+                            <td>@if(dishOrderStats.ContainsKey(dish.DishId) ){ <text> @dishOrderStats[dish.DishId] </text> } else { <text>0</text>}</td>
+                            <td>@if (dishVotingStats.ContainsKey(dish.DishId)){ <text> @dishVotingStats[dish.DishId] </text> } else{<text>0</text> }</td>
+                        </tr>
+                    }
+
+                    </table>
+                    <p class="clearfix">
+                    <input type="submit" value="Update Voting Menu" class="btn btn-big btn-primary pull-right"/>
+                    </p>
+                }
+                </div>
+            }
+            @Html.Display("votingUpdateStatus")
+        </div>
+        
+    </div>
+</div>

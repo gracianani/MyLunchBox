@@ -1,0 +1,41 @@
+﻿@model IEnumerable<MyLunchBox.Models.BentoBox>
+
+@{
+    ViewBag.Title = "ChooseBentoBox";
+}
+
+
+<ul id="steps" class="container clearfix">
+    <li class="step-past"><i class="ic-number">1</i>@Html.ActionLink("choose a restaurant", "ChooseRestaurant")</li>
+    <li class="step-current"><i class="ic-number">2</i> choose a lunchbox</li>
+    <li><i class="ic-number">3</i> fill my lunchbox</li>
+    <li><i class="ic-number">4</i> check out</li>
+</ul>
+<div class="container">
+    <div class="row">
+    <div class="span9">
+    <div class="lightBox">
+    <h2>Choose a Lunchbox</h2>
+    <ul id="lunchboxList" class="clearfix">
+        @foreach (var bentoBox in Model)
+        {
+            <li class="lunchboxItem">
+                <a class="lunchbox-select" href="Create?restaurantId=@bentoBox.RestaurantId&bentoBoxId=@bentoBox.BentoBoxId" id="@bentoBox.BentoBoxId">
+                <div class="ic-lunchbox entree-@bentoBox.NumOfEntree" >
+                    <div class="lunchbox-entreeName">@bentoBox.BentoBoxName</div>
+                </div>
+                <div class="lunchbox-Price">$@bentoBox.UnitPrice.ToString("F02").Substring(0, bentoBox.UnitPrice.ToString("F02").IndexOf("."))<small>@bentoBox.UnitPrice.ToString("F02").Substring(bentoBox.UnitPrice.ToString("F02").IndexOf("."))</small></div>
+                Select
+                </a>
+            </li>
+        }
+    </ul>
+    
+    </div>
+    </div>
+    <div class="span3">
+	    @{  Html.RenderPartial("_LocationSideBar", ViewData); }
+    </div>
+</div>
+
+</div>

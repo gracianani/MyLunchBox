@@ -1,0 +1,81 @@
+﻿@model IEnumerable<MyLunchBox.Models.Reward>
+
+@{
+    ViewBag.Title = "MyRewards";
+}
+<div class="row">
+    <div class="span3 well" style="padding:20px 0">
+    <ul class="nav nav-list">
+	    <li class="nav-header">My Account</li>
+	    <li>@Html.ActionLink("Account Settings", "MembershipDetails", "Member")</li>
+	    <li>@Html.ActionLink("Orders", "MyLunchBoxes", "Member")</li>
+	    <li class="active">@Html.ActionLink("Reward Points", "MyRewards", "Member")</li>
+	    <li>@Html.ActionLink("Voting", "MyVotes", "Member")</li>
+    </ul>
+    </div>
+
+    <div class="span9">
+    <div class="lightBox">
+    <h3>Reward Points</h3>
+    <table class="table">
+        <tr>
+            <td> Get more points </td>
+            <td>
+                @using(Html.BeginForm()) {
+                    @Html.DropDownList("rewardCardTypes") <br />
+                    <input type="submit" value="Buy Card Now" class="btn" />
+                } 
+            </td>
+        </tr>
+	    <tr>
+		    <td>Balance</td><td><em>@Model.Sum(i => i.Amount).ToString()</em></td>
+	    </tr>
+	    <tr>
+		    <td>Awarded</td><td>@Model.Where(i => i.RewardTypeId == (int)MyLunchBox.Models.RewardType.LuckySpin).Sum(i => i.Amount).ToString("+#;-#;0")</td>
+	    </tr>
+	    <tr>
+		    <td>Bought</td><td>@Model.Where(i => i.RewardTypeId == (int)MyLunchBox.Models.RewardType.RewardCard).Sum(i => i.Amount).ToString("+#;-#;0")</td>
+	    </tr>
+	    <tr>
+		    <td>Used</td><td>@Model.Where(i => i.RewardTypeId == (int)MyLunchBox.Models.RewardType.Order).Sum(i => i.Amount).ToString("+#;-#;0")</td>
+	    </tr>
+    </table>
+    
+    @if (Model.Count() == 0)
+    {
+        <h2>You haven't got any reward point record yet</h2>
+    }
+    else
+    {
+    <table class="table table-hover table-condensed">
+    <tr>
+        <th> Time </th>
+        <th> Points</th>
+        <th> Description</th>
+        <th> Code</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td class="orderTime">
+            @Html.DisplayFor(modelItem => item.WeekSpan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RewardDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RewardId)
+        </td>
+    </tr>
+    }
+    </table>
+    }
+    </div>
+    </div>
+</div>
+
+
+

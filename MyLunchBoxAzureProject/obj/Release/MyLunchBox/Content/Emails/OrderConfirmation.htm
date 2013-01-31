@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Order Detail</title>
+</head>
+
+<body>
+[[FirstName]] [[LastName]], <br />
+<br />
+Thank you for choosing MyLunchbox! <br />
+Please notice that when picking up lunch boxes, you need to provide your order number <span style="font-size:1.5em;color:#c84c0b">[[OrderId]]</span> and phone number <span style="font-size:1.5em;color:#c84c0b">[[ReceiverPhoneNumber]]</span>. <br />
+<br />
+Your order details are as follows: <br />
+<br />
+Name: [[FirstName]] [[LastName]] <br />
+Tel: [[ReceiverPhoneNumber]] <br />
+Address: <span style="color:#c84c0b">[[DeliveryLocation]]</span> <br />
+Delivery time: <span style="color:#c84c0b">[[DeliveryTime]]</span> <br />
+
+<br />
+<strong>Order Items</strong> <br />
+<br />
+<table cellspacing="0" cellpadding="4" border="1">
+    <tbody>
+        <tr valign="top">
+            <td><strong>Dishes</strong></td>
+            <td><strong>Quantity</strong></td>
+            <td><strong>Price ($)</strong></td>
+        </tr>
+        [[OrderItems]]
+    </tbody>
+</table>
+<br />
+[[OrderSummary]]
+<br />
+<br />
+<br />
+Call (561) 963-1677 if you have questions.
+<br /><br />
+We hope you like My Lunchbox's service! <br />
+<br />
+Sincerely, <br />
+<br />
+My Lunchbox team <br />
+<br />
+This email is automatically generated, do not reply
+</body>
+</html>
+
+
+
+
+

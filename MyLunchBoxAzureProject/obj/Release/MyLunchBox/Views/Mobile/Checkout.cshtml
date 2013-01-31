@@ -1,0 +1,376 @@
+﻿@model MyLunchBox.Models.Order
+@{
+    ViewBag.Title = "Checkout";
+    Layout = "~/Views/Shared/_MobileMaster.cshtml";
+    var validationSummary = "";
+    if (ViewData["Errors"] != null)
+    {
+        validationSummary = ViewData["Errors"].ToString();
+    }
+    var shoppingCart = (MyLunchBox.Models.ShoppingCart)ViewData["cart"]; 
+}
+
+<h2>Checkout</h2>
+
+<script type="text/javascript">
+    $(function () {
+
+        $('#isUseRewardPoints').change(setRewardPointsNum);
+        $('#rewardPoints').change(calculateActualAmount);
+        $('a[data-toggle="tab"]').on('shown', function (e) {
+            if ($(this).attr('href') == '#cash') {
+                $('#billingInfo').slideUp();
+                $("#PaymentType").val('2');
+            } else {
+                $('#billingInfo').slideDown();
+                $("#PaymentType").val('1');
+            }
+        });
+        $.validator.addMethod("billinginforequired", function (value) {
+            if ($("#PaymentType").val() == '1') {
+                return (value != null && value != '' && typeof (value) != 'undefined');
+            }
+            return true;
+        });
+        $.validator.unobtrusive.adapters.addBool("billinginforequired");
+        $.validator.addMethod("deliveryinforequired", function (value) {
+            console.log(value);
+            if ($('#needDeliveryInfo').val() == 'True') {
+                return (value != null && value != '' && typeof (value) != 'undefined');
+            }
+            return true;
+        });
+        $.validator.unobtrusive.adapters.addBool("deliveryinforequired");
+        initActualAmount();
+        if ($('#needDeliveryInfo').val() == 'True') {
+            $('.deliveryInfo').show();
+        }
+        else {
+            $('.deliveryInfo').hide();
+        }
+
+        $(':submit').click(function () {
+            $(this).attr('disabled', 'true');
+            if ($('form').validate().form()) {
+                $('<div style="position:fixed;left:0;top:0;padding-top:20%;height:80%;width:100%;background-color:rgba(0,0,0,0.6);color:#FFF;z-index:999;text-align:center;display:none"><img src="../../Content/Images/ajax-loader.gif" style="vertical-align:top" /> Processing...</div>').appendTo($('.page')).fadeIn();
+
+                $('form').submit();
+            } else {
+                $(this).removeAttr('disabled');
+            }
+        });
+
+
+        $('#whatscsv').popover({
+            'title': "What's CSV",
+            'html': true,
+            'content': "<p><strong>Visa - MasterCard -  Discover</strong></p>" +
+				"<p>On Visa, MasterCard and Discover cards, the CVS Code is a 3 digit number located on the back of the card such as shown below:</p>" +
+				"<img src='../../Content/Images/EchoCvCardBig.gif' />" +
+				"<p><strong>American Express</strong></p>" +
+				"<p>On American Express cards, the CVS Code is a 4 digit number located on the front of the card such as shown below:</p>" +
+				"<img src='../../Content/Images/EchoCvAmexCardBig.gif' />"
+        });
+
+        checkUniversity('UCLA', 'PUWL');
+
+    });
+    function getExchangeRate() {
+        return 100;
+    }
+    function initActualAmount() {
+        if ($("#canUseRewardPoints").val() == "True") {
+            initRewardPointsCheckbox(true)
+        } else {
+            $("#PaymentType").val('1');
+            $('#paymentTab').find('li:has(a[href=#cash])').hide();
+            initRewardPointsCheckbox(false);
+        }
+
+    }
+    function initRewardPointsCheckbox(adminSetting) {
+        var exchangeRate = getExchangeRate();
+        var rewardPoints = parseInt($('#rewardPoints').attr("data-max"));
+        var orderAmount = Math.round(exchangeRate * parseFloat($('#gross').val()));
+        if (adminSetting && (rewardPoints > orderAmount)) {
+            $('#isUseRewardPoints').attr('checked', 'checked');
+            $(".rewardPointLine").show();
+        } else {
+            $('#isUseRewardPoints').removeAttr('checked');
+            $(".rewardPointLine").hide();
+        }
+        setRewardPointsNum();
+    }
+
+    function setRewardPointsNum(e) {
+
+        var exchangeRate = getExchangeRate();
+        var rewardPoints = parseInt($('#rewardPoints').attr("data-max"));
+
+        if ($('#isUseRewardPoints').is(':checked')) {
+
+            var orderAmount = Math.round(exchangeRate * parseFloat($('#gross').val()));
+            var usedPoints = Math.min(orderAmount, rewardPoints);
+
+            $('#rewardPoints').val(usedPoints);
+            $('#orderAmountPoints').html(usedPoints);
+            $('#remainPoints').html('' + (rewardPoints - usedPoints));
+        } else {
+            $('#rewardPoints').val(0);
+            $('#orderAmountPoints').html('0');
+            $('#remainPoints').html(rewardPoints);
+        }
+        calculateActualAmount();
+    }
+    function calculateActualAmount() {
+        var exchangeRate = getExchangeRate();
+        var rewardPoints = parseInt($('#rewardPoints').val());
+        var max = parseInt($('#rewardPoints').attr("data-max"));
+        var gross = parseFloat($('#gross').val());
+        max = Math.min(Math.round(gross * exchangeRate), max);
+        if (rewardPoints > max) {
+            $('#rewardPoints').val(max);
+            rewardPoints = max;
+        }
+        else if (rewardPoints < 0 || rewardPoints == NaN) {
+            $('#rewardPoints').val(0);
+            rewardPoints = 0;
+        }
+        var actualAmount = gross - rewardPoints / exchangeRate;
+        $('#Savings').html((rewardPoints / exchangeRate).toFixed(2));
+
+        if (actualAmount < 0.009) {
+            $('#billingInfo, #paymentInfo').hide();
+            $("#PaymentType").val('3');
+        } else {
+            $('#paymentInfo').show();
+            if (!$('#cash').hasClass('active')) {
+                $('#billingInfo').show();
+                $("#PaymentType").val('1');
+            }
+            else {
+                $("#PaymentType").val('2');
+            }
+        }
+        showActualAmount(actualAmount);
+    }
+    function showActualAmount(amount) {
+        amount = (Math.round(amount * 100) / 100).toFixed(2);
+        $('#FinalAmount').html(amount);
+    }
+    function checkUniversity(orderUniversity, profileUniversity) {
+
+        if (!(orderUniversity == profileUniversity)) {
+
+            if (confirm("Your order location(" + orderUniversity + ") is different with your profile location(" + profileUniversity + ")\nAre you sure to check out?")) {
+                $('#orderUniversity').html('<em style="font-size:18px">' + $('#orderUniversity').html() + '</em>');
+                console.log($('#orderUniversity'));
+            } else {
+                window.location.href = "/ShoppingCart/Edit/";
+            }
+        }
+    }
+</script>
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<h2>Address and Payment</h2>
+<div id="request_form" class="lightBox form-horizontal ">
+    
+    @using (Html.BeginForm())
+    {
+        if (!string.IsNullOrEmpty(validationSummary))
+        {
+            <ul class="alert alert-block alert-error" >
+                <li>@validationSummary</li>
+            </ul>
+        }
+        <fieldset>
+            <legend>Order Summary</legend>
+            <input type="hidden" id="canUseRewardPoints" value="@shoppingCart.CanUserRewardPoint" />
+            <input type="hidden" id="needDeliveryInfo" value="@shoppingCart.NeedDeliveryInfo" />
+            @{ 
+                <table class="table table-borded">
+                    <tr><th>Lunchbox</th><th>Detail</th><th>Quantity</th><th>Price</th></tr>
+                    @foreach (var cartItem in shoppingCart.ShoppingCartItems)
+                    {
+                        <tr>
+                        <td>Lunchbox</td>
+                        <td>@cartItem.Description</td>
+                        <td>@cartItem.Quantity</td>
+                        <td>$ @cartItem.LineItemCost</td>
+                        </tr>
+                    }
+                  <tr><td colspan="2"></td><td><strong>Total Amount</strong></td><td class="cart-subtotalPrice">$ @Html.DisplayText("gross") @Html.Hidden("gross")</td></tr>
+                  
+                  <tr class="rewardPointLine">
+                  <td colspan="2">
+                  <div class="pull-right" style="line-height:32px;">
+                  You've <em>@Html.Display("totalRewardPoints")</em> award points, make payment with your points?
+                  <br />
+                  (Order Amount:<span id="orderAmountPoints">0</span>  | Remain: <span id="remainPoints">0</span> ) <a href="/Member/MyRewards" class="btn btn-small">Get More Ponits</a>
+                  </div>
+                  </td>
+                  <td>
+                   @Html.TextBoxFor(m => m.rewardPoints, new Dictionary<string, object> { { "type", "hidden" }, { "class", "input-mini" }, { "data-max", ViewBag.totalRewardPoints } }) 
+                  <input id="isUseRewardPoints" type="checkbox" checked="checked" />
+                  </td><td class="cart-subtotalPrice"> - $<span id="Savings">@Html.DisplayTextFor(m => m.Savings)</span> </td>
+                  </tr>
+                  
+                  <tr><td colspan="2"></td><td><strong>Actual Amount</strong></td><td id="actualAmountTd" class="cart-subtotalPrice big">$<span id="FinalAmount">@Html.DisplayTextFor(m => m.FinalAmount)</span></td></tr>
+                </table>
+            }
+
+        </fieldset>
+        <fieldset class="deliveryInfo">
+        	<legend>Delivery Info</legend>
+        	<div class="row">
+            <div class="span6">
+             @{ var deliveryLocation = (MyLunchBox.Models.University_Delivery)ViewData["deliveryLocation"];
+             
+	            <div class="control-group">
+	            <label class="control-label">University</label>
+	            <div class="controls controlsText" id="orderUniversity">@deliveryLocation.University.UniversityName</div>
+	            </div>
+	            <div class="control-group">
+	            <label class="control-label">Delivery Location</label>
+	            <div class="controls controlsText">@deliveryLocation.Location.BusinessName</div>
+	            </div>
+	            <div class="control-group">
+	            <label class="control-label">Delivery Time</label>
+	            <div class="controls controlsText">@DateTime.Parse(ViewData["deliveryTime"].ToString()).ToString("MMM dd, yyyy hh:mm tt")</div>
+	            </div>
+            }
+            </div>
+            <div class="span6">
+            <div class="control-group">
+            <label for="shippingFirstName"  class="control-label">First Name</label>
+            <div class="controls">@Html.TextBoxFor(m => m.ReceiverFirstName)@Html.ValidationMessageFor(m => m.ReceiverFirstName)</div>
+            </div>
+            <div class="control-group">
+            <label for="shippingLastName" class="control-label">Last Name</label>
+            <div class="controls">@Html.TextBoxFor(m => m.ReceiverLastName)@Html.ValidationMessageFor(m => m.ReceiverLastName)</div>
+            
+            </div>
+            <div class="control-group">
+            <label for="shippingPhone" class="control-label">Phone</label>
+            <div class="controls">@Html.TextBoxFor(m => m.ReceiverPhoneNumber)</div>
+            </div>
+            </div>
+        	</div>
+        </fieldset>
+        <fieldset id="paymentInfo">
+            <legend>Payment</legend>
+            @Html.HiddenFor(m => m.PaymentType)
+            <ul class="nav nav-pills" id="paymentTab" >
+				  <li class="active"><a href="#creditCard" data-toggle="tab">Credit Card</a></li>
+				  <li><a href="#cash" data-toggle="tab">Cash</a></li>
+			</ul>
+			<div class="tab-content">
+
+			  <div class="tab-pane active" id="creditCard">
+
+		            <div class="control-group">
+		            <label class="control-label">Card Type</label>
+		            <div class="controls">
+		            <select name="creditCardType">
+		                <option value="VISA" selected="selected">Visa</option>
+		                <option value="MASTERCARD">MasterCard</option>
+		                <option value="DISCOVER">Discover</option>
+		                <option value="AMEX">Amex</option>
+		            </select>
+		            </div>
+		            </div>
+		            <div class="control-group">
+		            <label class="control-label">Card Number</label>
+		            <div class="controls">@Html.TextBoxFor(m => m.cardNumber)@Html.ValidationMessageFor(m => m.cardNumber)</div>
+		            </div>
+		            <div class="control-group">
+		            <label class="control-label">Card Expiration Date</label>
+		            <div class="controls">
+		            <select name="cardExpMonth" class="span1">
+		                <option value="1">01</option>
+		                <option value="2">02</option>
+		                <option value="3">03</option>
+		                <option value="4">04</option>
+		                <option value="5">05</option>
+		                <option value="6">06</option>
+		                <option value="7">07</option>
+		                <option value="8">08</option>
+		                <option value="9">09</option>
+		                <option value="10">10</option>
+		                <option value="11">11</option>
+		                <option value="12">12</option>
+		            </select>
+		            <select name="cardExpYear" style="width:156px">
+		                <option value="2013">2013</option>
+		                <option value="2014">2014</option>
+		                <option value="2015">2015</option>
+		                <option value="2016">2016</option>
+		                <option value="2017">2017</option>
+		                <option value="2018">2018</option>
+		            </select>
+		            </div>
+		            </div>
+		            <div class="control-group">
+		            <label class="control-label">CSV</label>
+		             <div class="controls"> @Html.TextBoxFor(m => m.CSV)@Html.ValidationMessageFor(m => m.CSV) (<a href="javascript:void(0)" id="whatscsv"> <i class="icon-info-sign icon-orange"></i> What's CSV? </a>)</div>
+		            </div>				  
+			  </div>
+			  <div class="tab-pane" id="cash">
+                <ul>
+                    <li>Cash on delivery (COD) payment</li>
+                    <li> You have chosen the cash on delivery method</li>
+                    <li> The total amount of your order is </li>
+                </ul>
+				  <ul>
+				  <li>现金支付说明：</li>
+				  <li>请您在取餐时使用现金支付</li>
+				  <li>无法获得我们的Reward Points</li>
+				  <li>在指定时间内无人取餐，将会影响您的帐户信用</li>
+				  </ul>
+			  </div>
+			</div>
+
+        </fieldset>
+        <fieldset id="billingInfo">
+            <legend>Billing Info</legend>
+            <div class="control-group">
+            <label for="billingFirstName" class="control-label">First Name</label>
+            <div class="controls">
+            @Html.TextBoxFor(m => m.billingFirstName)
+            @Html.ValidationMessageFor(m => m.billingFirstName)
+            </div>
+            </div>
+            <div class="control-group">
+            <label for="billingLastName" class="control-label">Last Name</label>
+            <div class="controls">@Html.TextBoxFor(m => m.billingLastName)@Html.ValidationMessageFor(m => m.billingLastName)</div>
+            </div>
+            <div class="control-group">
+            <label for="billingAddress1" class="control-label">Address Line1</label>
+            <div class="controls">@Html.TextBoxFor(m => m.billingAddress1)@Html.ValidationMessageFor(m => m.billingAddress1)</div>
+            </div>
+            <div class="control-group">
+            <label for="billingAddress2" class="control-label">Address Line2</label>
+            <div class="controls">@Html.TextBoxFor(m => m.billingAddress2)@Html.ValidationMessageFor(m => m.billingAddress2)</div>
+            </div>
+            <div class="control-group">
+            <label for="billingCity" class="control-label">City</label>
+            <div class="controls">@Html.TextBoxFor(m => m.billingCity)@Html.ValidationMessageFor(m => m.billingCity)</div>
+            </div>
+            <div class="control-group">
+            <label for="billingState" class="control-label">State</label>
+            <div class="controls">
+            @Html.DropDownListFor(m=>m.billingState, @MyLunchBox.Models.StatesRepository.Instance.StatesListWithSelectedItem(@Model.billingState))
+            </div>
+            </div>
+            <div class="control-group">
+            <label for="billingZipCode" class="control-label">ZipCode</label>
+            <div class="controls">@Html.TextBoxFor(m => m.billingZipCode)@Html.ValidationMessageFor(m => m.billingZipCode)</div>
+            </div>
+        </fieldset>   
+        
+        <div class="clearfix">
+        <input type="submit" class="btn btn-primary btn-big pull-right" value="Submit" />
+        </div>
+    }</div>

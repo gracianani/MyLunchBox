@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="MyLunchBoxDevelopmentEntities-Web.config Connection String" description="MyLunchBoxDevelopmentEntities Connection String used in web.config by the application to access the database." defaultValue="metadata=res://*/Models.Dish.csdl|res://*/Models.Dish.ssdl|res://*/Models.Dish.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=localhost;initial catalog=MyLunchBoxDevelopment;User Id= AniZhao; Password=88458170;persist security info=True;multipleactiveresultsets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\yaqiZhao\\Documents\\Visual\ Studio\ 2010\\Projects\\MyLunchBox\\MyLunchBox\\obj\\Debug\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='MyLunchBoxDevelopmentEntities']/@connectionString" />
+  </parameter>
+  <parameter name="MyLunchBox-Web.config Connection String" description="MyLunchBox Connection String used in web.config by the application to access the database." defaultValue="data source=localhost;initial catalog=MyLunchBoxDevelopment;User Id= AniZhao; Password=88458170;persist security info=True;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\yaqiZhao\\Documents\\Visual\ Studio\ 2010\\Projects\\MyLunchBox\\MyLunchBox\\obj\\Debug\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='MyLunchBox']/@connectionString" />
+  </parameter>
+</parameters>

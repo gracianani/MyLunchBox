@@ -1,0 +1,63 @@
+﻿@model MyLunchBox.Models.Restaurant
+
+@{
+    ViewBag.Title = "Details";
+}
+<div class="row">
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Restaurant</legend>
+
+    <div class="display-label">RestaurantName</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RestaurantName)
+    </div>
+
+    <div class="display-label">RestaurantStatusId</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RestaurantStatusId)
+    </div>
+
+    <div class="display-label">RestaurantHoursFrom</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RestaurantHoursFrom)
+    </div>
+
+    <div class="display-label">RestaurantHoursTo</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RestaurantHoursTo)
+    </div>
+
+    <div class="display-label">RestaurantHours2From</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RestaurantHours2From)
+    </div>
+
+    <div class="display-label">RestaurantHours2To</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RestaurantHours2To)
+    </div>
+
+    <div class="display-label">RestaurantLocation</div>
+    <div class="display-field">
+        <table>
+            <tr><td>@Model.Location.BusinessName</td></tr>
+        </table>
+            
+        
+        @Html.DisplayFor(model => model.Location)
+    </div>
+
+    <div class="display-label"> Dishes </div>
+    <ul>
+        @foreach (var dish in Model.Dishes)
+        {
+            <li> @dish.DishName <img src="../../@dish.DishImageUrl" style="width:100px;" /> </li>
+        }
+    </ul>
+</fieldset>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
+</div>

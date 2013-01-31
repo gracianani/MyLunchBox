@@ -1,0 +1,16 @@
+﻿@model IEnumerable<MyLunchBox.Models.University>
+
+@{
+    ViewBag.Title = "SelectUniversity";
+    Layout = "~/Views/Shared/_MobileMaster.cshtml";
+}
+
+<h2>SelectUniversity</h2>
+<ul data-role="listview" data-theme="a">
+    @foreach(var university in Model) 
+    {
+    <li>
+        @Html.ActionLink(university.UniversityName, "ChooseRestaurant", new { universityId = @university.UniversityId})
+    </li>
+    }
+</ul>

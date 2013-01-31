@@ -1,0 +1,43 @@
+﻿@model IEnumerable<MyLunchBox.Models.Restaurant>
+@{
+    ViewBag.Title = "ChooseRestaurant";
+    Layout = "~/Views/Shared/_MobileMemberMaster.cshtml";
+}
+<div data-role="content">
+<h3>ChooseRestaurant</h3>
+	<ul data-role="listview">
+            @foreach (var restaurant in Model)
+            {
+                if ( (restaurant.RestaurantStatus == MyLunchBox.Models.RestaurantStatusLevel.Opening))
+                {
+                <li>
+                	<a href="/mobile/ChooseBentoBox?restaurantId=@restaurant.RestaurantId">
+                    	@if ( string.IsNullOrEmpty(restaurant.RestaurantImageUrl) ) {
+                        <img src="/Content/Images/Restaurants/restaurantDefault.png" />
+                        } else {
+                        <img src="@restaurant.RestaurantImageUrl" />
+                        }
+                        <h3>@restaurant.RestaurantName</h3>
+		                <p class="restaurant-time">@restaurant.RestaurantHoursString <span>|</span> Monday - Friday</p>
+                        <p>@restaurant.RestaurantShortDescription</p>
+                    </a>
+                 </li>
+                }
+                else
+                {
+                	<li data-theme="d">
+                    	@if ( string.IsNullOrEmpty(restaurant.RestaurantImageUrl) ) {
+                        <img src="/Content/Images/Restaurants/restaurantDefault.png" />
+                        } else {
+                        <img src="@restaurant.RestaurantImageUrl" />
+                        }
+                        <h3>@restaurant.RestaurantName</h3>
+		                <p class="restaurant-time">@restaurant.RestaurantHoursString <span>|</span> Monday - Friday</p>
+                        <p>@restaurant.RestaurantShortDescription</p>
+                        <p>@restaurant.RestaurantStatus.ToString()</p>
+                    </li>
+                }
+                
+            }
+            </ul>
+</div>

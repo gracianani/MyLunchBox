@@ -1,0 +1,164 @@
+﻿@{
+    ViewBag.Title = "About Us";
+}
+<script>
+$(function(){
+	if (location.hash != "") {
+		$("[href='" + location.hash + "']").tab('show');
+	}
+	
+	$('a[data-toggle="tab"]').on('shown', function (e) {
+	  location.hash = $(e.target).attr('href');
+	})
+	
+	$('.header-menu-link.active').removeClass('active');
+	$('#menu-help>a').addClass('active');
+});
+</script>
+<div class="row">
+    <div class="span3 well" style="padding:20px 0">
+    <ul class="nav nav-list">
+	    <li class="nav-header">Help</li>
+	    <li class="active"><a href="#about" data-toggle="tab">About Us</a></li>
+	    <li><a href="#faq" data-toggle="tab">FAQ</a></li>
+	    <li><a href="#careers" data-toggle="tab">Careers</a></li>
+	    <li><a href="#contact" data-toggle="tab">Contact</a></li>
+    </ul>
+    </div>
+    <div class="span9">
+    <div class="tab-content lightBox">
+      <div class="tab-pane active clearfix" id="about">
+      <h3>About Us</h3>
+      <hr />
+      <img src="../../Content/Images/sucimg.png" class="span3" />
+      <p class="span5">
+      Since 2013, we have been committed to providing an easy, fast way to connect customers with their favorite restaurants. It takes just few clicks from your computer to place an order through mylunchbox.com from your preferred restaurants.<br />
+Currently, we are operational in Kuwait, Kingdom of Saudi Arabia, Kingdom of Bahrain, United Arab Emirates and Oman. We are the pioneers in the field and needless to say, one of Middle East's first service providers in this space.
+To put it in a nutshell, we are a one-stop online shopping mall for restaurants as well as online shoppers.
+      </p>
+      </div>
+      <div class="tab-pane" id="faq">
+      <h3>Frequently Asked Questions</h3>
+      <hr />
+        <div class="accordion" id="faqAccordion">
+		<div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#faqAccordion" href="#faq2">
+                <big>1.</big> What are Reward Points Used for? 如何使用积分?
+              </a>
+            </div>
+            <div id="faq2" class="accordion-body collapse in">
+              <div class="accordion-inner">
+                您可以用您的积分在本网站订购午餐，饮料等。100积分相当于1美元。在Check Out时，可以选择您要使用的积分数量。使用积分订餐后，您即可获得相应的抽奖，投票机会。
+              </div>
+            </div>
+          </div><!--.group-->
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#faqAccordion" href="#faq1">
+                <big>2.</big> How to Get Award Points? 如何获得积分？
+              </a>
+            </div>
+            <div id="faq1" class="accordion-body collapse">
+              <div class="accordion-inner">
+              <p>您可以通过以下方式获得积分(reward points):</p>
+              <ol>
+              <li><strong>注册奖励</strong>：注册成功，即可获得<em>200</em>积分！</li>
+              <li><strong>直接购买</strong>：登陆后，在<a href="/Member/MyRewards/">My Rewards</a>页面购买积分。
+              <br />根据购买金额，您将享受不同的优惠！
+              <br />2100积分(价值$21) - 仅售$20
+              <br />5500积分(价值$55) - 仅售$50
+              <br />12000积分(价值$120) - 仅售$100
+              </li>
+              <li><strong>参与投票：</strong>
+              <br />
+              参与"Vote for Next Week's Menu"活动，并成功投票，即可获得<em>30</em>积分奖励。全过程只需要您宝贵的10秒种时间。（每个本周有消费记录的帐号，均可获得一次投票机会，在选出下周您想吃的菜肴的同时，还可获得30积分奖励)
+              </li>
+              <li><strong>抽奖：</strong>
+              <p>订餐用户还可参与"Lucky Draw"活动，我们每周将会在各个校区分别抽取3-10个幸运用户（名额数量取决于本校区上周订餐总数，奖励<em>300-500</em>积分。您在一周内使用Reward Points订餐次数越多，中奖概率越高！使用信用卡或现金支付方式的用户，暂时不能获得抽奖机会，请您见谅。</p>
+              </li>
+              </ol>
+              <p>注：我们不鼓励通过各种形式的恶意刷分行为，否则您的任何奖励积分将被取消。</p>
+              <table class="table">
+              <tr><th>Action</th><th>Rule</th><th>Reward Points</th></tr>
+              <tr><td>Regiest</td><td>Got a One-time Reward</td><td>200</td></tr>
+              <tr><td>Buy a Card</td><td>购买成功</td><td>2200 - 12000</td></tr>
+              <tr><td>Vote for Next Week's Menu</td><td>成功参与"下周菜单投票"活动</td><td>30</td></tr>
+              <tr><td>Lucky Draw</td><td>使用reward points订餐的用户</td><td>300-500</td></tr>
+              </table>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#faqAccordion" href="#faq3">
+                <big>3.</big> 如何取餐?
+              </a>
+            </div>
+            <div id="faq3" class="accordion-body collapse">
+              <div class="accordion-inner">
+                我们的送餐人员会准时到达各个校区的指定地点分发餐盒。您只需在您所选择的时间地点领取即可。
+              </div>
+            </div>
+          </div><!--.group-->
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#faqAccordion" href="#faq4">
+                <big>4.</big> 取餐时，您需要提供的信息?
+              </a>
+            </div>
+            <div id="faq4" class="accordion-body collapse">
+              <div class="accordion-inner">
+                <p>领餐时，您需要向我们的送餐人员提供您的订单号(order#)和注册时的手机号，以便我们的送餐人员可以准确的把午餐发送到您的手中。如需其他人代领，请向代领人提供您的订单号(order#)和手机号。您将会在订餐完成后获得您的订单序列号，您可以在订餐状态或我的主页中查询您的订单序列号。您也可以在修改个人信息中修改您的手机号。</p>
+          <p>我们推荐您使用方便快捷的积分支付方式，在使用积分方式的同时，您将会获得一定折扣，100%中奖的抽奖机会等。如您使用积分支付，但由于特殊原因并未取餐，请与我们联系，我们将会视情况返还您的积分（信用卡及现金支付暂时不能享受此项服务）。如您使用现金支付方式，且有两次未取餐记录，我们将会视情况封停您的账户。现金支付方式暂时不接受4份或4份以上的单次订单，带给您的不便，请您谅解。</p>
+              </div>
+            </div>
+          </div><!--.group-->
+        </div><!--.accordion-->   
+      </div>
+      <div class="tab-pane" id="careers">
+      <h3>Careers</h3>
+      <hr />
+        <div class="accordion" id="careersAccordion">
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#careersAccordion" href="#careers1">
+                <big>1.</big> Restaurant Manager
+              </a>
+            </div>
+            <div id="careers1" class="accordion-body collapse in">
+              <div class="accordion-inner">
+                Anim pariatur cliche...
+              </div>
+            </div>
+          </div>
+          <div class="accordion-group">
+            <div class="accordion-heading">
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#careersAccordion" href="#careers2">
+                <big>2.</big> Restaurant Manager
+              </a>
+            </div>
+            <div id="careers2" class="accordion-body collapse">
+              <div class="accordion-inner">
+                Anim pariatur cliche...
+              </div>
+            </div>
+          </div><!--.group-->
+        </div><!--.accordion-->       
+      </div>
+      <div class="tab-pane" id="contact">
+      <h3>Contact Us</h3>
+      <hr />
+      <p>We want you to create the best lunch of your dreams... Please click on a category to view help topics.
+Check the frequently asked questions, and if you can't find an answer there, don't hesitate to contact us!</p>
+      <table class="table table-striped">
+      <tr><th>Phone：</th><td>(888) 411-ELEMENT<br />(888) 411-3536</td></tr>
+      <tr><th>Fax:</th><td>(312) 348-6286</td></tr>
+      <tr><th>Mail:</th><td><a href="mailto:hello@mylunchbox.com">My Lunchbox Support</a></td></tr>
+      <tr><th>Address:</th><td>2021 W Fulton Ste K213
+Chicago, IL 60612</td></tr>
+      </table>
+      </div>
+    </div>
+    </div>
+</div><!--.row-->

@@ -1,0 +1,68 @@
+﻿@model IEnumerable<MyLunchBox.Models.Restaurant>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            RestaurantName
+        </th>
+        <th>
+            RestaurantStatusId
+        </th>
+        <th>
+            RestaurantHoursFrom
+        </th>
+        <th>
+            RestaurantHoursTo
+        </th>
+        <th>
+            RestaurantHours2From
+        </th>
+        <th>
+            RestaurantHours2To
+        </th>
+        <th>
+            RestaurantLocationId
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RestaurantName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RestaurantStatusId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RestaurantHoursFrom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RestaurantHoursTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RestaurantHours2From)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RestaurantHours2To)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RestaurantLocationId)
+        </td>
+        <td>
+            @Html.ActionLink("详细信息", "Details", new { id=item.RestaurantId }) 
+            @Html.ActionLink("开始订餐", "Create", "CustomBentoBox" )
+        </td>
+    </tr>
+}
+
+</table>

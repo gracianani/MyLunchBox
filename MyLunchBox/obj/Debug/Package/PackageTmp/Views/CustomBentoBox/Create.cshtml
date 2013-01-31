@@ -1,0 +1,319 @@
+﻿@model MyLunchBox.Models.CustomBentoBoxViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script type="text/javascript">
+
+    $(function () {
+        // Document.ready -> link up remove event handler
+        $(".course").click(onAddToBoxClicked);
+
+        $(".lunchboxBody").on('click', '.icon-remove', onRemoveFromBoxClicked);
+        $(".lunchboxBody").on('change', '.lunchbox-filledNum input', onChangeDishNum);
+
+        $("#dishTypeSelector a").click(function () {
+            var activateClass = $(this).attr("data-activeClass");
+            $("#allDishes > li.active").removeClass("active");
+            $("#allDishes > li").filter('.' + activateClass).addClass("active");
+        });
+
+        $("#btnAddToCart").click(function () {
+            isBentoBoxErrorFree({ "success": function () { $("#lunchBox").submit(); } });
+        });
+    });
+    function onAddToBoxClicked() {
+    	var $this = $(this);
+        var dish = $this.attr("data-dishId");
+        var dishImg = $this.find("img");
+        var dishType = $this.attr("data-type");
+        var dishName = $this.find('p').text();
+        var dishJSON = {"id":dish, "type":dishType, "name":dishName, "img":dishImg.attr("src")};
+        
+        var desc = $("#lunchbox-"+dishType);
+        var recipe = $("#recipe");
+        if (dish != '') {
+            $.post("/CustomBentoBox/AddToCurrentBox/", { "dishId": dish, "encodedRecipe": recipe.val() },
+                    function (data) {
+                    	if (data.isValid) {
+                    		flyto(dishImg, desc, selectCourse, dishJSON);
+                    		setWarningMsgType('success');
+                    		displayWarningMsg(data.warningMsg,"<strong>Well done!</strong> You successfully added a dish.");
+                    		showTotalPrice(data.unitPrice);
+                    	} else {
+	                    	setWarningMsgType('warning');
+	                    	displayWarningMsg(data.warningMsg,"<strong>Sorry!</strong>");
+                    	}
+	                    recipe.val(data.encodedRecipe);
+	                    
+                        
+                    });
+        }
+    }
+    function flyto(src, dest, callback, arg) {
+
+			
+			var productX 		= src.offset().left;
+			var productY 		= src.offset().top;
+			var basketX 		= dest.offset().left;
+			var basketY 		= dest.offset().top;
+			var gotoX 			= basketX - productX;
+			var gotoY 			= basketY - productY;
+			var newImageWidth 	= src.width() / 3;
+			var newImageHeight	= src.height() / 3;
+			
+			src
+			.clone()
+			.prependTo(src.parent())
+			.css({'position' : 'absolute','z-index':99})
+			.animate({opacity: 0.4}, 100 )
+			.animate({opacity: 0.1, marginLeft: gotoX, marginTop: gotoY, width: newImageWidth, height: newImageHeight}, 1200, function() {
+				
+				$(this).remove();
+				callback.call(this,arg);
+			
+			});	
+	}
+	
+    function onRemoveFromBoxClicked() {
+        var dish = $(this).parent().attr("data-id");
+        
+        var recipe = $("#recipe");
+        if (dish != '') {
+            $.post("/CustomBentoBox/RemoveFromCurrentBox/", { "dishId": dish, "encodedRecipe": recipe.val() },
+                function (data) {
+                	setWarningMsgType('success');
+                	displayWarningMsg(data.warningMsg,"<strong>Well Done!</strong> You successfully removed a dish.");
+					console.log(data.unitPrice);
+                	unselectCourse({id:dish});
+                	recipe.val(data.encodedRecipe);
+                	showTotalPrice(data.unitPrice);
+                });
+        }
+    }
+
+    function isBentoBoxErrorFree( params ) {
+		if ( $(".lunchbox-emptyItem:visible").size() > 0) {
+			setWarningMsgType("warning");
+			displayWarningMsg([], "Your bento box haven't finished yet." )
+			$('#warningMsg').focus();
+			return;
+		}
+		if ( $('#locations').size() > 0 ) {
+			setWarningMsgType("error");
+			displayWarningMsg([], "Please select a deliver location&time." );
+			$('#locations').focus();
+			return;
+		}		
+        var recipe = $("#recipe");
+        $.post("/CustomBentoBox/IsBentoBoxErrorFree", {"encodedRecipe":recipe.val() },
+            function(data) {
+                if(!data.isValid) {
+                    setWarningMsgType('warning');
+                    displayWarningMsg(data.warningMsg,"<strong>Your bento box haven't finished yet</strong> ");
+                    showTotalPrice(data.unitPrice);
+                }
+                else {
+                    params.success();
+                }
+            }
+        );
+    }
+    
+    var unselectCourse = function(courseJSON) {
+		var course = $('.course[data-dishId="'+courseJSON.id + '"]');
+		var li = $('.lunchbox-filledItem[data-id="'+courseJSON.id+'"]');
+		var type = course.attr('data-type');
+		if (type == 'Drink') {
+			li.remove();
+		} else {
+			li.html('').removeClass('lunchbox-filledItem').addClass('lunchbox-emptyItem');
+		}
+		course.removeClass('selected');
+	}
+	var selectCourse = function(courseJSON){
+		var list = $('#lunchbox-'+courseJSON.type);
+		var course = $('.course[data-dishId="'+courseJSON.id + '"]');
+		var price = parseFloat(course.attr('data-price'));
+		course.addClass('selected');
+		if ( courseJSON.type == 'Drink' ) {			
+			list.append( '<li class="lunchbox-filledItem" data-id="'+courseJSON.id+'" data-price="'+ price +'"><i class="icon-remove icon-brown" title="Remove" rel="tooltip"></i> <img src="' + courseJSON.img + '" />' + courseJSON.name  + '<span class="lunchbox-filledNum">X <input type="text" value="'+ '1' + '" class="input-mini"/></span> = <span class="lunchbox-filledPrice">$ '+price+'</span>'+ '</li>').removeClass('lunchbox-emptyItem').addClass('lunchbox-filledItem');
+		} else {
+			var emptyItem = list.find(".lunchbox-emptyItem");
+			var priceHtml = (price>0)?('<span class="lunchbox-filledPrice">+ $ '+price+'</span>'):"";
+			$(emptyItem[0]).html( '<i class="icon-remove icon-brown" title="Remove" rel="tooltip"></i> <img src="' + courseJSON.img + '" />' + courseJSON.name + priceHtml).removeClass('lunchbox-emptyItem').addClass('lunchbox-filledItem').attr('data-id',courseJSON.id).attr('data-price',price);
+	
+		}
+	}
+	function addTotalPrice(price) {
+		var totalPrice = parseFloat($('#lunchboxPrice').attr('data-price')) + price ;
+		showTotalPrice(totalPrice);
+		
+	}
+	function showTotalPrice(totalPrice) {
+		var price = $('#lunchboxPrice');
+		price.attr('data-price',totalPrice);
+		price.html('$' + totalPrice.toString().slice(0,-3) + '.<small>'+ totalPrice.toString().slice(-2) + '</small>');
+	}
+	
+	function onChangeDishNum() {
+		var quantity;
+		var item = $(this).parent().parent();
+        var recipe = $("#recipe");
+		var id = item.attr('data-id');
+		var unitPrice = parseFloat($(".course[data-dishId='"+id+"']").attr('data-price'));
+		
+		quantity = parseInt($(this).val());
+
+		if ( quantity > 0 && id != '') {
+			//todo: post changes
+			$.post("/CustomBentoBox/ChangeQuantity/", { "dishId": id, "dishQuantity": quantity, "encodedRecipe": recipe.val() },
+                function (data) {
+                	var price = unitPrice * quantity;
+                	price = Math.round( price * 100 ) / 100;
+                	
+                	item.attr('data-price',price).find(".lunchbox-filledPrice").html('$' + price);
+                	setWarningMsgType("success");
+                	displayWarningMsg([], "<strong>Well Done!</strong> You successfully changed the quantity.");
+                	recipe.val(data.encodedRecipe);
+                	showTotalPrice(data.unitPrice);
+
+            });
+			
+		} else {
+			setWarningMsgType("error");
+			displayWarningMsg([], "<strong>Error!</strong> Check quantity." )			
+		}
+		
+	}
+
+    function displayWarningMsg(warningMsgs, title) {
+        var warningMsg = $("#warningMsg");
+        warningMsg.html('');
+        if ( title != undefined) {
+	        warningMsg.append("<li>" + title + "</li>");
+        }
+                
+        $.each(warningMsgs, function (index, item) {
+            console.log(item);
+            warningMsg.append("<li>" + item + "</li>");
+        });
+        if ( title == undefined && warningMsgs.length < 1 ) {
+	        warningMsg.alert('close');
+        } else {
+	        warningMsg.slideDown().alert();
+        }
+    }
+    function setWarningMsgType(type) {
+	    $("#warningMsg").attr('class','alert alert-block').addClass('alert-' + type);
+    }
+
+</script>
+
+@using (Html.BeginForm("AddToCart", "CustomBentoBox", FormMethod.Post, new { id="lunchBox" } ))
+{
+    @Html.ValidationSummary(true)
+    <ul id="steps" class="container clearfix">
+        <li class="step-past"><a href="/CustomBentoBox/ChooseRestaurant/"><i class="ic-number">1</i> choose a restaurant</a></li>
+        <li class="step-past"><i class="ic-number">2</i> @Html.ActionLink("choose a lunchbox", "ChooseBentoBox", new {@RestaurantId=Model.CurrentCustomBentoBox.BentoBox.RestaurantId})</li>
+        <li class="step-current"><i class="ic-number">3</i> fill my lunchbox</li>
+        <li><i class="ic-number">4</i> check out</li>
+    </ul>
+    <ul id="warningMsg" class="alert alert-block fade in " style="display:none"><button type="button" class="close" data-dismiss="alert">&times;</button></ul>
+
+    <div class="row">
+        
+
+        <div id="restaurant_dishes" class="span8">
+            <ul class="nav nav-tabs" id="fillLunchboxTab">
+                @{
+                    
+                    foreach (MyLunchBox.Models.DishType dishType in Model.AvailableDishes.Keys )
+                    {
+                        
+                        <li class="@if((int)dishType == (int)Model.AvailableDishes.Keys.First()){<text>active</text>}"><a href="#@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)" data-activeClass="@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)" data-toggle="tab">
+                        @Extension.ExtensionMethods.GetDescription(dishType)</a></li>
+                    }
+                }
+			</ul>
+            <div class="tab-content lightBox">
+                @foreach (MyLunchBox.Models.DishType dishType in Model.AvailableDishes.Keys)
+                {
+                    var dishes = Model.AvailableDishes[dishType];
+                    
+                    <div class="tab-pane @if ((int)dishType == (int)Model.AvailableDishes.Keys.First())
+                                         { <text>active</text> } @Enum.Parse(typeof(MyLunchBox.Models.DishType), dishType.ToString())" id="@Enum.Parse(typeof(MyLunchBox.Models.DishType), dishType.ToString())">
+                    <ul id="@Enum.Parse(typeof(MyLunchBox.Models.DishType), dishType.ToString())List" class="courseList clearfix">
+                    @foreach (var dish in dishes)
+                    {
+                        if (dish.DishStatusId == (int)MyLunchBox.Models.DishStatusLevel.Available)
+                        {
+                        <li class="course" data-type="@Enum.GetName(typeof(MyLunchBox.Models.DishType), dish.DishTypeId)"  data-dishId="@dish.DishId"  data-customBentoBoxId="@Model.CurrentCustomBentoBox.CustomBentoBoxId" data-price="@dish.DishIncrementalPrice" >
+                        <img src="../../@dish.DishImageUrl" />
+                        <p>@dish.DishName </p>
+                        
+
+                        @if (dish.DishIncrementalPrice > 0)
+                        {
+                        	<div class="price">+ $ @dish.DishIncrementalPrice </div>
+                        }
+                        <i></i>
+                        </li>
+                        }
+                    }
+                    </ul>
+                    </div>
+                }
+            </div>
+             @{  Html.RenderPartial("_LocationSideBar", ViewData); }
+        </div>
+
+        <div class="span4">
+            <input id="customBentoBoxId" type="hidden" name="customBentoBoxId" value="@Model.CurrentCustomBentoBox.CustomBentoBoxId" />
+            <input id="recipe" type="hidden" name="recipe" value="@Model.CurrentCustomBentoBox.EncodedRecipe"/>
+            
+		    <div id="lunchbox" class="lunchBoxContaienr">
+		        <div class="lunchboxTop"><input id="customBentoBoxName" type="text" name="customBentoBoxName" value="My Lunchbox" /></div>
+                <div class="lunchboxBody">
+                    @foreach (MyLunchBox.Models.DishType dishType in Model.AvailableDishes.Keys)
+                    {
+                        <ul id="lunchbox-@Enum.GetName(typeof(MyLunchBox.Models.DishType), dishType)">
+                        <p class="lunchbox-title">@Extension.ExtensionMethods.GetDescription(dishType) </p>
+                        @{var count = 0;}
+                        @foreach (var customBentoBoxItem in @Model.CurrentCustomBentoBox.CustomBentoBoxItems.Where(i => i.Dish.DishTypeId == (int)dishType))
+                        {
+                            count += 1;
+                            <li class="lunchbox-filledItem" data-id="@customBentoBoxItem.DishId" data-customBentoBoxId='@customBentoBoxItem.CustomBentoBoxId'><i class="icon-remove icon-brown"  rel="tooltip" data-original-title="Remove"></i> <img src="../../@customBentoBoxItem.Dish.DishImageUrl"> 
+                                @customBentoBoxItem.Dish.DishName 
+                                @if (customBentoBoxItem.Dish.DishTypeId == (int)MyLunchBox.Models.DishType.Drink)
+                                {
+                                    <span class="lunchbox-filledNum">X <input type="text" value="1" class="input-mini"/></span> <text>=</text> <span class="lunchbox-filledPrice">$@customBentoBoxItem.Dish.DishIncrementalPrice</span>
+                                } else if (@customBentoBoxItem.Dish.DishIncrementalPrice > 0 ) {
+                                	<span class="lunchbox-filledPrice">+ $@customBentoBoxItem.Dish.DishIncrementalPrice</span>
+                                }
+                            </li> 
+                        }
+                        @while (count < Model.CurrentCustomBentoBox.BentoBox.NumOfDishesInDishType(dishType))
+                        {
+                            count = count + 1;
+                            <li class="lunchbox-emptyItem"></li>
+                        }
+                        </ul>
+                        <div class="lunchboxDiv"></div>
+                    }
+                </div>
+		        <div class="lunchboxBottom"></div>
+		        <div id="lunchboxPrice" class="lunchbox-priceBig" data-price='@Model.CurrentCustomBentoBox.BentoBox.UnitPrice.ToString("N2")'>$@Model.CurrentCustomBentoBox.BentoBox.UnitPrice.ToString("F02").Substring(0, Model.CurrentCustomBentoBox.BentoBox.UnitPrice.ToString("F02").IndexOf("."))<small>@Model.CurrentCustomBentoBox.BentoBox.UnitPrice.ToString("N2").Substring(Model.CurrentCustomBentoBox.BentoBox.UnitPrice.ToString().IndexOf("."))</small></div>
+		    </div>
+		    <div class="clearfix" style="padding-left:100px;"><a id="btnAddToCart"  class="btn btn-primary btn-big"><i class="icon-white icon-shopping-cart"></i> Add To Cart</a></div>
+	    </div>
+
+    </div>
+    
+}
+
+<div>
+</div>

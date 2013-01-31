@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Home Impression Chinese Food";
+    Layout = "~/Views/Shared/_MobileMaster.cshtml";
+}
+
+
+  
+  <div data-role="content">
+  <div style="text-align:center">
+  	<img class="responsiveImg" src="/Content/Images/home.png">
+  </div>
+
+    <form action="SelectUniversity/" method="post" data-theme="c">
+    <fieldset>
+        <label for="username" class="ui-hidden-accessible">Email:</label>
+        <input type="text" name="username" id="username" value="" placeholder="Email"/>
+        <label for="password" class="ui-hidden-accessible">Password:</label>
+        <input type="password" name="password" id="password" value="" placeholder="Password"/>
+        <div class="ui-grid-a">
+            <div class="ui-block-a">
+            <input type="submit" value="Log In" data-theme="b" />
+            </div>
+            <div class="ui-block-b">
+            <a href="SelectUniversity/" data-role="button" data-theme="d">Regiest</a>
+            </div>
+        </div>
+    </fieldset>
+    </form>
+     
+  </div>
+  <!-- /content -->
+
+<div data-role="footer" data-position="fixed">
+    <div data-role="navbar">
+		<ul>
+			<li><a href="a.html" data-theme="b">400(817-6363)</a></li>
+			<li><a href="b.html" data-theme="b">View Full Website</a></li>
+		</ul>
+	</div><!-- /navbar -->
+</div> 

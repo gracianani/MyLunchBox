@@ -1,0 +1,152 @@
+﻿@model IEnumerable<MyLunchBox.Models.Order>
+
+@{
+    ViewBag.Title = "View All Lunch Boxes";
+    var db = new MyLunchBox.Models.MyLunchBoxDevelopmentEntities();
+    var restaurants = db.Restaurants.Select(i=>new {i.RestaurantId, i.RestaurantName, i.University.UniversityName}).AsEnumerable()
+                        .Select(i=> new SelectListItem() { Text = string.Format(" {0} ( {1} ) ", i.RestaurantName, i.UniversityName), Value =  i.RestaurantId.ToString()})
+                        .Union(new List<SelectListItem>() { new SelectListItem() { Text = "All Restaurants", Value = "0" } }).OrderBy(i=>Convert.ToInt32(i.Value));
+    var deliveryLocationAndTime = db.University_Delivery.Select( i=> new {i.UniversityId, i.LocationId, i.Location.LocationName, i.DeliveryTime }).AsEnumerable()
+                        .Select(i => new SelectListItem() { Text = string.Format(" {0} {1:HH:mm} ", i.LocationName, i.DeliveryTime), Value = i.LocationId.ToString() })
+                        .Union(new List<SelectListItem>() { new SelectListItem() { Text = "All Locations", Value = "0" } }).OrderBy(i => Convert.ToInt32(i.Value));
+}
+
+<script>
+    $(function () {
+        $(".download").click(function () {
+            $.post('/Admin/ExportOrders', { 'restaurantId': $('#restaurantId').val(), 'deliveryDate': $('#deliveryDate').val(), 'deliveryLocationId': $('#deliveryLocationId').val() }, function (data) {
+                if (data.result == 'true') {
+                    alert(data.message);
+                }
+            });
+        });
+    });
+</script>
+
+<div class="row">
+    <div class="span3 well" style="padding:20px 0;">
+        <ul class="nav nav-list">
+	        <li class="nav-header">Admin</li>
+            <li class="active">@Html.ActionLink("Today's Lunch Boxes", "ViewAllOrders", "Admin")</li>
+	        <li>@Html.ActionLink("Manage Restaurants", "ManageRestaurants", "Admin")</li>
+            <li>@Html.ActionLink("Manage Universities", "ManageUniversities", "Admin")</li>
+	        <li>@Html.ActionLink("Manage DeliveryHours", "ManageDeliveryHours", "Admin")</li>
+	        <li>@Html.ActionLink("LuckyDraw", "LuckyDraw", "Admin")</li>
+            <li>@Html.ActionLink("Manage Votes", "ManageVotes", "Admin")</li>
+        </ul>
+    </div>
+
+    <div class="span9">
+    <div class="lightBox">
+    <h3>View Lunch Boxes</h3>
+
+        @using (Html.BeginForm("ViewOrders", "Admin", FormMethod.Get, new { @class = "form-inline well" }))
+        {
+        	<p>
+            <label>Restaurant: </label> @Html.DropDownList("restaurantId", restaurants, new { @style = "font-size:10px" })
+            </p>
+            <p>
+            <label>Deliver Date:</label>@Html.TextBox("deliveryDate", @DateTime.Now.Date.ToString("MM-dd-yyyy"), new { @class = "input-small" })
+
+            </p>
+            <p>
+            <label>Deliver Location & Time:</label>
+            @Html.DropDownList("deliveryLocationId", deliveryLocationAndTime, new { @style = "font-size:10px" })
+            </p>
+            <p>
+                <input type="submit" class="btn" value="search" />
+            </p>
+        }
+        <p class="clearfix"><a href="javascript:void" class = "btn pull-right btn-primary download">Export Orders</a></p>
+        <table class="table table-striped table-bordered ">
+        <tr>
+            <th style="width:60px;">
+                Order Id
+            </th>
+            <th>
+                Details
+            </th>
+            <th>
+                Receiver
+            </th>
+            <th>
+                Delivery Info
+            </th>
+            <th>
+            	Price
+            </th>
+        </tr>
+
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                	#@item.OrderId
+                    <br />
+                    <span class="orderTime">@item.OrderReceivedAt.ToString("yyyy-MM-dd HH:mm:ss")</span>
+                    <br />
+                    
+                </td>
+                <td>
+                    <p>@item.OrderItems.First().Dishes.First().Restaurant.RestaurantName</p>
+                    @foreach (var orderItem in @item.OrderItems.Where( i=>i.ItemTypeId == (int)MyLunchBox.Models.ItemType.CustomBentoBox))
+                    {
+                    	<p class="orderRestaurant warning">@orderItem.Item.ItemTypeDescription x 
+                        @if ( @orderItem.Quantity > 1) {
+                        	<em>@orderItem.Quantity</em>
+                        } else {
+                        @orderItem.Quantity
+                        }
+                        </p>
+                        <ul class="orderItems" style="width:220px">
+                            @foreach (var customBentoBoxItem in @orderItem.CustomBentoBoxItems)
+                            {
+                                <li>
+                                <span class="orderItems-desc">@customBentoBoxItem.Dish.DishName</span>
+                                <span class="orderItems-qty"> 
+                                @if ( @customBentoBoxItem.Quantity > 1 ) {
+                                <text>x @customBentoBoxItem.Quantity</text>
+                                }
+                                </span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </td>
+                <td>
+                @item.ReceiverFirstName @item.ReceiverLastName
+                <br />
+                    <a href="mailto:@item.PayerEmail" title="@item.PayerEmail"> @item.PayerEmail </a>
+                <br />
+                Phone: @item.ReceiverPhoneNumber
+                </td>
+                <td>   
+                    @item.DeliveryLocation.BusinessName <br />
+                    @item.DeliveryTime.ToString("yyyy-MM-dd HH:mm")
+                </td>
+                <td>
+                $@item.FinalAmount
+                <br />
+                @if (item.FinalAmount > 0)
+                {
+                    if (item.PaymentStatus == "paid")
+                    {
+                        <span class="label label-success">Credit Card</span><br />
+                    }
+                    else
+                    {
+                        <span class="label label-warning">Cash</span><br />
+                    }
+                }
+                @if (item.Savings> 0)
+                { <span class="label label-info">Reward Point</span><br /> }
+                
+                </td>
+        
+            </tr>
+        }
+
+        </table>
+        <p class="clearfix"><a href="javascript:void" class = "btn pull-right btn-primary download">Export Orders</a></p>
+    </div>
+    </div>
+</div>

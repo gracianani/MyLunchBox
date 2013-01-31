@@ -1,0 +1,111 @@
+﻿@{
+    var selectedUniversity = MyLunchBox.Models.LocationHelper.GetSelectedUniversity(new HttpContextWrapper(HttpContext.Current));
+    var selectedDeliveryLocation = MyLunchBox.Models.LocationHelper.GetDeliveryLocation(new HttpContextWrapper(HttpContext.Current));
+    var db = new MyLunchBox.Models.MyLunchBoxDevelopmentEntities();
+    var locations = new List<SelectListItem>();
+    if(selectedUniversity != null)
+    {
+        locations = db.University_Delivery.Where(i => i.UniversityId == selectedUniversity.UniversityId)
+                        .Select(i => new { i.UniversityDeliveryId, i.Location.LocationName, i.DeliveryTime })
+                        .AsEnumerable().Select(i => new SelectListItem() { Text = i.LocationName + " " + i.DeliveryTime.ToString("hh:mm tt"), Value = i.UniversityDeliveryId.ToString() }).ToList();
+    }
+   var universities = db.Universities.Select(i=>new {i.UniversityName, i.UniversityId}).AsEnumerable().Select(i=>new SelectListItem() { Text = i.UniversityName, Value = i.UniversityId.ToString()}).ToList();
+
+}
+<ul id="orderInfo" class="lightBox">
+    <li>
+     	<span class="info-type">Location:</span>
+        @if ( selectedUniversity != null)
+        {     
+            <span>@selectedUniversity.UniversityName</span>
+        } else {
+        <div class="alert alert-error">Please <strong>select a university</strong>  in the topright corner of the page.</div>
+        <div class="modal hide fade" id="chooseLocationModel" data-backdrop="static" data-keyboard="false">
+			  <div class="modal-header">
+			    
+			    <h2>Universities</h2>
+			  </div>
+			  <div class="modal-body">
+              	<select id="university">
+                @foreach (var university in universities)
+                {
+                    <option value="@university.Value">@university.Text</option>
+                }
+                </select>	    
+			  </div>
+			  <div class="modal-footer">
+			    <input type="button" value="Apply" id="selectUniversity" class="btn btn-primary" />
+			  </div>
+		</div>
+        }
+    </li>
+    @if (selectedUniversity != null) {
+	<li>
+        <span class="info-type">Deliver Location&amp;Time:</span> 
+        @if (ViewData["reset"] == "1" || selectedDeliveryLocation == null)
+        {
+            @Html.DropDownList("locations", locations, "select your location");
+            <a id="selectLocationAndTime"  class="btn">Apply</a>
+        }
+        else if (selectedDeliveryLocation != null)
+        { 
+            @selectedDeliveryLocation.Location.BusinessName<text>&nbsp;</text>@selectedDeliveryLocation.DeliveryTime.ToString("hh:mm tt")
+            <text>(</text><a href="javascript:void(0)" class='editDeliveryLocationAndTime'>edit</a><text>)</text>
+        }
+    </li>
+    }
+    @if (ViewData["RestaurantName"] != null)
+    { 
+    <li>
+        <span class="info-type">Restaurant:</span> 
+        <span id="restaurantName">@ViewData["RestaurantName"].ToString()</span>
+        (@Html.ActionLink("edit", "ChooseRestaurant", "CustomBentoBox"))
+    </li>
+    }
+    
+</ul>
+<script type="text/javascript">
+    function applyUniversityChange() {
+        var universityId = $("#university").val();
+		console.log(universityId);
+        if (universityId != '') {
+            $.post("/Location/CurrentLocation/", { "universityId": universityId },
+                function (data) {
+                    window.location.reload();
+                    
+                });
+        }
+    }
+    function applyDeliveryLocationChange() {
+        if (confirm("All lunchboxes in your shopping cart will be delivered to:\n" + $("#locations").find('option:selected').text())) {
+            var locationId = $("#locations").val();
+            var restaurantName = $("#restaurantName").html();
+
+            if (locationId != '') {
+                $.post("/CustomBentoBox/ChangeLocationAndTime/", { "changeToLocationId": locationId, "restaurantName": restaurantName },
+                function (data) {
+                    $("#orderInfo").html($(data).html());
+                    bindEvents();
+                });
+            }
+        } 
+    }
+
+
+    function bindEvents() {
+        $("#selectUniversity").click(applyUniversityChange);
+        $("#selectLocationAndTime").click(applyDeliveryLocationChange);
+        var restaurantName = $("#restaurantName").html();
+        $(".editDeliveryLocationAndTime").click(function () {
+            $.post("/CustomBentoBox/ResetDeliveryLocationAndTime/", {"restaurantName" : restaurantName},
+                function (data) {
+                    $("#orderInfo").html($(data).html());
+                    bindEvents();
+                });
+        });
+    }
+    $(function () {
+        bindEvents();
+        $('#chooseLocationModel').modal();
+    });
+</script>

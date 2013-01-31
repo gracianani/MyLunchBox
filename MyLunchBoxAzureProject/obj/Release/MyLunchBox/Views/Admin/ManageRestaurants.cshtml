@@ -1,0 +1,84 @@
+﻿@model IEnumerable<MyLunchBox.Models.Restaurant>
+
+@{
+    ViewBag.Title = "Manage Restaurants";
+    
+}
+<div class="row">
+
+<div class="span3 well" style="padding:20px 0;">
+<ul class="nav nav-list">
+	<li class="nav-header">Admin</li>
+    <li>@Html.ActionLink("Today's Orders", "ViewAllOrders", "Admin")</li>
+	<li class="active">@Html.ActionLink("Manage Restaurants", "ManageRestaurants", "Admin")</li>
+	<li>@Html.ActionLink("Manage DeliveryHours", "ManageDeliveryHours", "Admin")</li>
+	<li>@Html.ActionLink("LuckyDraw", "LuckyDraw", "Admin")</li>
+    <li>@Html.ActionLink("Manage Votes", "ManageVotes", "Admin")</li>
+</ul>
+</div>
+<div class="span9">
+<div class="lightBox">
+<h3>Manage Restaurants</h3>
+<p class="clearfix">
+    @Html.ActionLink("Create New", "CreateRestaurant", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table table-striped">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Hours
+        </th>
+        <th>
+            Address
+        </th>
+        <th>
+            University
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.RestaurantName)
+        </td>
+        <td>
+        	@if(item.RestaurantStatusId > 0) {
+            	<span class="label label-success">@Enum.GetName(typeof(MyLunchBox.Models.RestaurantStatusLevel), item.RestaurantStatusId)</span>
+            } else {
+            	<span class="label">@Enum.GetName(typeof(MyLunchBox.Models.RestaurantStatusLevel), item.RestaurantStatusId)</span>
+            }
+            
+        </td>
+        <td>
+            @item.RestaurantHoursFrom.Value.ToString("HH:mm") - @item.RestaurantHoursTo.Value.ToString("HH:mm")
+            @if (item.RestaurantHours2From.HasValue && item.RestaurantHours2To.HasValue)
+            {
+               <text> | </text> @item.RestaurantHours2From.Value.ToString("HH:mm") <text> - </text> @item.RestaurantHours2To.Value.ToString("HH:mm")
+            }
+        </td>
+        <td>
+            @item.Location.Address1, 
+            @item.Location.Address2, 
+            @item.Location.City, 
+            @item.Location.StateOrProvince, 
+            @item.Location.ZipCode 
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem=>item.University.UniversityName)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "ManageRestaurantDetails", new { restaurantId=item.RestaurantId }, new {@class="btn"}) 
+        </td>
+    </tr>
+}
+
+</table>
+</div>
+</div>
+</div>

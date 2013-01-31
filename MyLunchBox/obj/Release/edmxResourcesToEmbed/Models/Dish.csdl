@@ -1,0 +1,691 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MyLunchBoxDevelopmentModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="MyLunchBoxDevelopmentEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Locations" EntityType="MyLunchBoxDevelopmentModel.Location" />
+    <EntitySet Name="ShoppingCartItems" EntityType="MyLunchBoxDevelopmentModel.ShoppingCartItem" />
+    <EntitySet Name="ShoppingCarts" EntityType="MyLunchBoxDevelopmentModel.ShoppingCart" />
+    <AssociationSet Name="FK__ShoppingC__Shopp__5812160E1" Association="MyLunchBoxDevelopmentModel.FK__ShoppingC__Shopp__5812160E1">
+      <End Role="ShoppingCart" EntitySet="ShoppingCarts" />
+      <End Role="ShoppingCartItem" EntitySet="ShoppingCartItems" />
+    </AssociationSet>
+    <EntitySet Name="OrderItems" EntityType="MyLunchBoxDevelopmentModel.OrderItem" />
+    <EntitySet Name="CustomBentoBoxes" EntityType="MyLunchBoxDevelopmentModel.CustomBentoBox" />
+    <EntitySet Name="BentoBoxes" EntityType="MyLunchBoxDevelopmentModel.BentoBox" />
+    <AssociationSet Name="FK__CustomBen__Bento__1ED998B2" Association="MyLunchBoxDevelopmentModel.FK__CustomBen__Bento__1ED998B2">
+      <End Role="BentoBox" EntitySet="BentoBoxes" />
+      <End Role="CustomBentoBox" EntitySet="CustomBentoBoxes" />
+    </AssociationSet>
+    <EntitySet Name="Restaurants" EntityType="MyLunchBoxDevelopmentModel.Restaurant" />
+    <AssociationSet Name="FK__BentoBox__Restau__1A14E395" Association="MyLunchBoxDevelopmentModel.FK__BentoBox__Restau__1A14E395">
+      <End Role="Restaurant" EntitySet="Restaurants" />
+      <End Role="BentoBox" EntitySet="BentoBoxes" />
+    </AssociationSet>
+    <AssociationSet Name="RestaurantLocation" Association="MyLunchBoxDevelopmentModel.RestaurantLocation">
+      <End Role="Location" EntitySet="Locations" />
+      <End Role="Restaurant" EntitySet="Restaurants" />
+    </AssociationSet>
+    <EntitySet Name="University_Delivery" EntityType="MyLunchBoxDevelopmentModel.University_Delivery" />
+    <AssociationSet Name="FK__Universit__locat__36470DEF" Association="MyLunchBoxDevelopmentModel.FK__Universit__locat__36470DEF">
+      <End Role="Location" EntitySet="Locations" />
+      <End Role="University_Delivery" EntitySet="University_Delivery" />
+    </AssociationSet>
+    <EntitySet Name="Universities" EntityType="MyLunchBoxDevelopmentModel.University" />
+    <AssociationSet Name="FK__Universit__Unive__29572725" Association="MyLunchBoxDevelopmentModel.FK__Universit__Unive__29572725">
+      <End Role="Location" EntitySet="Locations" />
+      <End Role="University" EntitySet="Universities" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Restauran__unive__2E1BDC42" Association="MyLunchBoxDevelopmentModel.FK__Restauran__unive__2E1BDC42">
+      <End Role="University" EntitySet="Universities" />
+      <End Role="Restaurant" EntitySet="Restaurants" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Universit__unive__3552E9B6" Association="MyLunchBoxDevelopmentModel.FK__Universit__unive__3552E9B6">
+      <End Role="University" EntitySet="Universities" />
+      <End Role="University_Delivery" EntitySet="University_Delivery" />
+    </AssociationSet>
+    <EntitySet Name="CustomBentoBoxItems" EntityType="MyLunchBoxDevelopmentModel.CustomBentoBoxItem" />
+    <AssociationSet Name="FK__CustomBen__Custo__239E4DCF" Association="MyLunchBoxDevelopmentModel.FK__CustomBen__Custo__239E4DCF">
+      <End Role="CustomBentoBox" EntitySet="CustomBentoBoxes" />
+      <End Role="CustomBentoBoxItem" EntitySet="CustomBentoBoxItems" />
+    </AssociationSet>
+    <EntitySet Name="Announcements" EntityType="MyLunchBoxDevelopmentModel.Announcement" />
+    <EntitySet Name="Dishes" EntityType="MyLunchBoxDevelopmentModel.Dish" />
+    <AssociationSet Name="FK__CustomBen__DishI__24927208" Association="MyLunchBoxDevelopmentModel.FK__CustomBen__DishI__24927208">
+      <End Role="Dish" EntitySet="Dishes" />
+      <End Role="CustomBentoBoxItem" EntitySet="CustomBentoBoxItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Dishes__restaura__108B795B" Association="MyLunchBoxDevelopmentModel.FK__Dishes__restaura__108B795B">
+      <End Role="Restaurant" EntitySet="Restaurants" />
+      <End Role="Dish" EntitySet="Dishes" />
+    </AssociationSet>
+    <EntitySet Name="Votings" EntityType="MyLunchBoxDevelopmentModel.Voting" />
+    <AssociationSet Name="FK__votings__dishId__2CBDA3B5" Association="MyLunchBoxDevelopmentModel.FK__votings__dishId__2CBDA3B5">
+      <End Role="Dish" EntitySet="Dishes" />
+      <End Role="voting" EntitySet="Votings" />
+    </AssociationSet>
+    <EntitySet Name="Users" EntityType="MyLunchBoxDevelopmentModel.User" />
+    <AssociationSet Name="FK__Users__addressId__398D8EEE" Association="MyLunchBoxDevelopmentModel.FK__Users__addressId__398D8EEE">
+      <End Role="Location" EntitySet="Locations" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ShoppingC__UserI__4E88ABD4" Association="MyLunchBoxDevelopmentModel.FK__ShoppingC__UserI__4E88ABD4">
+      <End Role="User" EntitySet="Users" />
+      <End Role="ShoppingCart" EntitySet="ShoppingCarts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__votings__votedBy__43A1090D" Association="MyLunchBoxDevelopmentModel.FK__votings__votedBy__43A1090D">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Voting" EntitySet="Votings" />
+    </AssociationSet>
+    <EntitySet Name="RewardCards" EntityType="MyLunchBoxDevelopmentModel.RewardCard" />
+    <EntitySet Name="UserDetails" EntityType="MyLunchBoxDevelopmentModel.UserDetail" />
+    <AssociationSet Name="FK__UserDetai__locat__373B3228" Association="MyLunchBoxDevelopmentModel.FK__UserDetai__locat__373B3228">
+      <End Role="Location" EntitySet="Locations" />
+      <End Role="UserDetail" EntitySet="UserDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__UserDetai__unive__1C873BEC" Association="MyLunchBoxDevelopmentModel.FK__UserDetai__unive__1C873BEC">
+      <End Role="University" EntitySet="Universities" />
+      <End Role="UserDetail" EntitySet="UserDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__UserDetai__Unive__55BFB948" Association="MyLunchBoxDevelopmentModel.FK__UserDetai__Unive__55BFB948">
+      <End Role="University_Delivery" EntitySet="University_Delivery" />
+      <End Role="UserDetail" EntitySet="UserDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__UserDetai__userI__1B9317B3" Association="MyLunchBoxDevelopmentModel.FK__UserDetai__userI__1B9317B3">
+      <End Role="User" EntitySet="Users" />
+      <End Role="UserDetail" EntitySet="UserDetails" />
+    </AssociationSet>
+    <EntitySet Name="Rewards" EntityType="MyLunchBoxDevelopmentModel.Reward" />
+    <AssociationSet Name="FK__Rewards__UserId__11158940" Association="MyLunchBoxDevelopmentModel.FK__Rewards__UserId__11158940">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Reward" EntitySet="Rewards" />
+    </AssociationSet>
+    <EntitySet Name="Orders" EntityType="MyLunchBoxDevelopmentModel.Order" />
+    <AssociationSet Name="FK__Orders__Delivery__308E3499" Association="MyLunchBoxDevelopmentModel.FK__Orders__Delivery__308E3499">
+      <End Role="Location" EntitySet="Locations" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK__OrderItem__order__7849DB76" Association="MyLunchBoxDevelopmentModel.FK__OrderItem__order__7849DB76">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="OrderItem" EntitySet="OrderItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Orders__UserId__4316F928" Association="MyLunchBoxDevelopmentModel.FK__Orders__UserId__4316F928">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Rewards__orderId__4C364F0E" Association="MyLunchBoxDevelopmentModel.FK__Rewards__orderId__4C364F0E">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="Reward" EntitySet="Rewards" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Location">
+    <Key>
+      <PropertyRef Name="LocationId" />
+    </Key>
+    <Property Type="Int32" Name="LocationId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="LocationName" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="BusinessName" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="FirstName" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="LastName" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Address1" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Address2" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="City" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="StateOrProvince" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="Country" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="CountryCode" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="PhoneNumber" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="ZipCode" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Restaurants" Relationship="MyLunchBoxDevelopmentModel.RestaurantLocation" FromRole="Location" ToRole="Restaurant" />
+    <NavigationProperty Name="University_Delivery" Relationship="MyLunchBoxDevelopmentModel.FK__Universit__locat__36470DEF" FromRole="Location" ToRole="University_Delivery" />
+    <NavigationProperty Name="Universities" Relationship="MyLunchBoxDevelopmentModel.FK__Universit__Unive__29572725" FromRole="Location" ToRole="University" />
+    <NavigationProperty Name="Users" Relationship="MyLunchBoxDevelopmentModel.FK__Users__addressId__398D8EEE" FromRole="Location" ToRole="User" />
+    <NavigationProperty Name="UserDetails" Relationship="MyLunchBoxDevelopmentModel.FK__UserDetai__locat__373B3228" FromRole="Location" ToRole="UserDetail" />
+    <NavigationProperty Name="Orders" Relationship="MyLunchBoxDevelopmentModel.FK__Orders__Delivery__308E3499" FromRole="Location" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="ShoppingCartItem">
+    <Key>
+      <PropertyRef Name="ShoppingCartItemId" />
+    </Key>
+    <Property Type="Int32" Name="ShoppingCartItemId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="ShoppingCartId" Nullable="false" />
+    <Property Type="Int32" Name="Quantity" Nullable="false" />
+    <Property Type="Int32" Name="ItemId" Nullable="false" />
+    <Property Type="Int32" Name="ItemTypeId" Nullable="false" />
+    <Property Type="DateTime" Name="CreatedAt" Nullable="false" />
+    <Property Type="DateTime" Name="LastUpdatedAt" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ShoppingCart">
+    <Key>
+      <PropertyRef Name="ShoppingCartId" />
+    </Key>
+    <Property Type="Int32" Name="ShoppingCartId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="UserId" Nullable="true" />
+    <Property Type="DateTime" Name="CreatedAt" Nullable="false" />
+    <Property Type="DateTime" Name="LastUpdatedAt" Nullable="false" />
+    <NavigationProperty Name="ShoppingCartItems" Relationship="MyLunchBoxDevelopmentModel.FK__ShoppingC__Shopp__5812160E1" FromRole="ShoppingCart" ToRole="ShoppingCartItem" />
+    <NavigationProperty Name="User" Relationship="MyLunchBoxDevelopmentModel.FK__ShoppingC__UserI__4E88ABD4" FromRole="ShoppingCart" ToRole="User" />
+  </EntityType>
+  <Association Name="FK__ShoppingC__Shopp__5812160E1">
+    <End Type="MyLunchBoxDevelopmentModel.ShoppingCart" Role="ShoppingCart" Multiplicity="1" />
+    <End Type="MyLunchBoxDevelopmentModel.ShoppingCartItem" Role="ShoppingCartItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ShoppingCart">
+        <PropertyRef Name="ShoppingCartId" />
+      </Principal>
+      <Dependent Role="ShoppingCartItem">
+        <PropertyRef Name="ShoppingCartId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="OrderItem">
+    <Key>
+      <PropertyRef Name="OrderItemId" />
+    </Key>
+    <Property Type="Int32" Name="OrderItemId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="OrderId" Nullable="false" />
+    <Property Type="Int32" Name="ItemId" Nullable="false" />
+    <Property Type="Int32" Name="ItemTypeId" Nullable="false" />
+    <Property Type="Int32" Name="Quantity" Nullable="false" />
+    <Property Type="Decimal" Name="LineItemCost" Nullable="false" Precision="8" Scale="2" />
+    <NavigationProperty Name="Order" Relationship="MyLunchBoxDevelopmentModel.FK__OrderItem__order__7849DB76" FromRole="OrderItem" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="CustomBentoBox">
+    <Key>
+      <PropertyRef Name="CustomBentoBoxId" />
+    </Key>
+    <Property Type="Int32" Name="CustomBentoBoxId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="CustomBentoBoxName" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="BentoBoxId" Nullable="false" />
+    <Property Type="String" Name="Comment" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="BentoBox" Relationship="MyLunchBoxDevelopmentModel.FK__CustomBen__Bento__1ED998B2" FromRole="CustomBentoBox" ToRole="BentoBox" />
+    <NavigationProperty Name="CustomBentoBoxItems" Relationship="MyLunchBoxDevelopmentModel.FK__CustomBen__Custo__239E4DCF" FromRole="CustomBentoBox" ToRole="CustomBentoBoxItem" />
+  </EntityType>
+  <EntityType Name="BentoBox">
+    <Key>
+      <PropertyRef Name="BentoBoxId" />
+    </Key>
+    <Property Type="Int32" Name="BentoBoxId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="BentoBoxName" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="BentoBoxDescription" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Type="Decimal" Name="UnitPrice" Nullable="false" Precision="8" Scale="2" />
+    <Property Type="Int32" Name="RestaurantId" />
+    <Property Type="String" Name="BentoBoxImageUrl" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="BentoBoxTypeId" />
+    <Property Type="Int32" Name="BentoBoxStatusId" Nullable="false" />
+    <NavigationProperty Name="CustomBentoBoxes" Relationship="MyLunchBoxDevelopmentModel.FK__CustomBen__Bento__1ED998B2" FromRole="BentoBox" ToRole="CustomBentoBox" />
+    <NavigationProperty Name="Restaurant" Relationship="MyLunchBoxDevelopmentModel.FK__BentoBox__Restau__1A14E395" FromRole="BentoBox" ToRole="Restaurant" />
+  </EntityType>
+  <Association Name="FK__CustomBen__Bento__1ED998B2">
+    <End Type="MyLunchBoxDevelopmentModel.BentoBox" Role="BentoBox" Multiplicity="1" />
+    <End Type="MyLunchBoxDevelopmentModel.CustomBentoBox" Role="CustomBentoBox" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BentoBox">
+        <PropertyRef Name="BentoBoxId" />
+      </Principal>
+      <Dependent Role="CustomBentoBox">
+        <PropertyRef Name="BentoBoxId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Restaurant">
+    <Key>
+      <PropertyRef Name="RestaurantId" />
+    </Key>
+    <Property Type="Int32" Name="RestaurantId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="RestaurantName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="RestaurantStatusId" Nullable="false" />
+    <Property Type="DateTime" Name="RestaurantHoursFrom" />
+    <Property Type="DateTime" Name="RestaurantHoursTo" />
+    <Property Type="DateTime" Name="RestaurantHours2From" />
+    <Property Type="DateTime" Name="RestaurantHours2To" />
+    <Property Type="Int32" Name="RestaurantLocationId" Nullable="false" />
+    <Property Type="Int32" Name="UniversityId" Nullable="false" />
+    <Property Type="String" Name="RestaurantImageUrl" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="RestaurantShortDescription" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="RestaurantDetailedDescription" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="BentoBoxes" Relationship="MyLunchBoxDevelopmentModel.FK__BentoBox__Restau__1A14E395" FromRole="Restaurant" ToRole="BentoBox" />
+    <NavigationProperty Name="Location" Relationship="MyLunchBoxDevelopmentModel.RestaurantLocation" FromRole="Restaurant" ToRole="Location" />
+    <NavigationProperty Name="University" Relationship="MyLunchBoxDevelopmentModel.FK__Restauran__unive__2E1BDC42" FromRole="Restaurant" ToRole="University" />
+    <NavigationProperty Name="Dishes" Relationship="MyLunchBoxDevelopmentModel.FK__Dishes__restaura__108B795B" FromRole="Restaurant" ToRole="Dish" />
+  </EntityType>
+  <Association Name="FK__BentoBox__Restau__1A14E395">
+    <End Type="MyLunchBoxDevelopmentModel.Restaurant" Role="Restaurant" Multiplicity="0..1" />
+    <End Type="MyLunchBoxDevelopmentModel.BentoBox" Role="BentoBox" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Restaurant">
+        <PropertyRef Name="RestaurantId" />
+      </Principal>
+      <Dependent Role="BentoBox">
+        <PropertyRef Name="RestaurantId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RestaurantLocation">
+    <End Type="MyLunchBoxDevelopmentModel.Location" Role="Location" Multiplicity="1" />
+    <End Type="MyLunchBoxDevelopmentModel.Restaurant" Role="Restaurant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Location">
+        <PropertyRef Name="LocationId" />
+      </Principal>
+      <Dependent Role="Restaurant">
+        <PropertyRef Name="RestaurantLocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="University_Delivery">
+    <Key>
+      <PropertyRef Name="UniversityDeliveryId" />
+    </Key>
+    <Property Type="Int32" Name="UniversityDeliveryId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="UniversityId" Nullable="false" />
+    <Property Type="Int32" Name="LocationId" Nullable="false" />
+    <Property Type="DateTime" Name="DeliveryTime" Nullable="false" />
+    <NavigationProperty Name="Location" Relationship="MyLunchBoxDevelopmentModel.FK__Universit__locat__36470DEF" FromRole="University_Delivery" ToRole="Location" />
+    <NavigationProperty Name="University" Relationship="MyLunchBoxDevelopmentModel.FK__Universit__unive__3552E9B6" FromRole="University_Delivery" ToRole="University" />
+    <NavigationProperty Name="UserDetails" Relationship="MyLunchBoxDevelopmentModel.FK__UserDetai__Unive__55BFB948" FromRole="University_Delivery" ToRole="UserDetail" />
+  </EntityType>
+  <Association Name="FK__Universit__locat__36470DEF">
+    <End Type="MyLunchBoxDevelopmentModel.Location" Role="Location" Multiplicity="1" />
+    <End Type="MyLunchBoxDevelopmentModel.University_Delivery" Role="University_Delivery" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Location">
+        <PropertyRef Name="LocationId" />
+      </Principal>
+      <Dependent Role="University_Delivery">
+        <PropertyRef Name="LocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="University">
+    <Key>
+      <PropertyRef Name="UniversityId" />
+    </Key>
+    <Property Type="Int32" Name="UniversityId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="UniversityName" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="UniversityLocationId" Nullable="false" />
+    <NavigationProperty Name="Location" Relationship="MyLunchBoxDevelopmentModel.FK__Universit__Unive__29572725" FromRole="University" ToRole="Location" />
+    <NavigationProperty Name="Restaurants" Relationship="MyLunchBoxDevelopmentModel.FK__Restauran__unive__2E1BDC42" FromRole="University" ToRole="Restaurant" />
+    <NavigationProperty Name="University_Delivery" Relationship="MyLunchBoxDevelopmentModel.FK__Universit__unive__3552E9B6" FromRole="University" ToRole="University_Delivery" />
+    <NavigationProperty Name="UserDetails" Relationship="MyLunchBoxDevelopmentModel.FK__UserDetai__unive__1C873BEC" FromRole="University" ToRole="UserDetail" />
+  </EntityType>
+  <Association Name="FK__Universit__Unive__29572725">
+    <End Type="MyLunchBoxDevelopmentModel.Location" Role="Location" Multiplicity="1" />
+    <End Type="MyLunchBoxDevelopmentModel.University" Role="University" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Location">
+        <PropertyRef Name="LocationId" />
+      </Principal>
+      <Dependent Role="University">
+        <PropertyRef Name="UniversityLocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Restauran__unive__2E1BDC42">
+    <End Type="MyLunchBoxDevelopmentModel.University" Role="University" Multiplicity="1" />
+    <End Type="MyLunchBoxDevelopmentModel.Restaurant" Role="Restaurant" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="University">
+        <PropertyRef Name="UniversityId" />
+      </Principal>
+      <Dependent Role="Restaurant">
+        <PropertyRef Name="UniversityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Universit__unive__3552E9B6">
+    <End Type="MyLunchBoxDevelopmentModel.University" Role="University" Multiplicity="1" />
+    <End Type="MyLunchBoxDevelopmentModel.University_Delivery" Role="University_Delivery" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="University">
+        <PropertyRef Name="UniversityId" />
+      </Principal>
+      <Dependent Role="University_Delivery">
+        <PropertyRef Name="UniversityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="CustomBentoBoxItem">
+    <Key>
+      <PropertyRef Name="CustomBentoBoxItemId" />
+    </Key>
+    <Property Type="Int32" Name="CustomBentoBoxItemId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="CustomBentoBoxId" Nullable="false" />
+    <Property Type="Int32" Name="DishId" Nullable="false" />
+    <Property Type="Int32" Name="Quantity" Nullable="false" />
+    <NavigationProperty Name="CustomBentoBox" Relationship="MyLunchBoxDevelopmentModel.FK__CustomBen__Custo__239E4DCF" FromRole="CustomBentoBoxItem" ToRole="CustomBentoBox" />
+    <NavigationProperty Name="Dish" Relationship="MyLunchBoxDevelopmentModel.FK__CustomBen__DishI__24927208" FromRole="CustomBentoBoxItem" ToRole="Dish" />
+  </EntityType>
+  <Association Name="FK__CustomBen__Custo__239E4DCF">
+    <End Type="MyLunchBoxDevelopmentModel.CustomBentoBox" Role="CustomBentoBox" Multiplicity="1" />
+    <End Type="MyLunchBoxDevelopmentModel.CustomBentoBoxItem" Role="CustomBentoBoxItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustomBentoBox">
+        <PropertyRef Name="CustomBentoBoxId" />
+      </Principal>
+      <Dependent Role="CustomBentoBoxItem">
+        <PropertyRef Name="CustomBentoBoxId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Announcement">
+    <Key>
+      <PropertyRef Name="AnnouncementId" />
+    </Key>
+    <Property Type="Int32" Name="AnnouncementId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="AnnouncementText" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="CreatedAt" Nullable="false" />
+    <Property Type="Boolean" Name="IsShownOnHomePage" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Dish">
+    <Key>
+      <PropertyRef Name="DishId" />
+    </Key>
+    <Property Type="Int32" Name="DishId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="DishName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="DishStatusId" Nullable="false" />
+    <Property Type="String" Name="ShortDescription" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="DetailedDescription" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="RestaurantId" />
+    <Property Type="String" Name="DishImageUrl" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="DishTypeId" />
+    <Property Type="Decimal" Name="DishIncrementalPrice" Nullable="false" Precision="10" Scale="2" />
+    <Property Type="Boolean" Name="IsOnVoting" Nullable="false" />
+    <NavigationProperty Name="CustomBentoBoxItems" Relationship="MyLunchBoxDevelopmentModel.FK__CustomBen__DishI__24927208" FromRole="Dish" ToRole="CustomBentoBoxItem" />
+    <NavigationProperty Name="Restaurant" Relationship="MyLunchBoxDevelopmentModel.FK__Dishes__restaura__108B795B" FromRole="Dish" ToRole="Restaurant" />
+    <NavigationProperty Name="votings" Relationship="MyLunchBoxDevelopmentModel.FK__votings__dishId__2CBDA3B5" FromRole="Dish" ToRole="voting" />
+  </EntityType>
+  <Association Name="FK__CustomBen__DishI__24927208">
+    <End Type="MyLunchBoxDevelopmentModel.Dish" Role="Dish" Multiplicity="1" />
+    <End Type="MyLunchBoxDevelopmentModel.CustomBentoBoxItem" Role="CustomBentoBoxItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dish">
+        <PropertyRef Name="DishId" />
+      </Principal>
+      <Dependent Role="CustomBentoBoxItem">
+        <PropertyRef Name="DishId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Dishes__restaura__108B795B">
+    <End Type="MyLunchBoxDevelopmentModel.Restaurant" Role="Restaurant" Multiplicity="0..1" />
+    <End Type="MyLunchBoxDevelopmentModel.Dish" Role="Dish" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Restaurant">
+        <PropertyRef Name="RestaurantId" />
+      </Principal>
+      <Dependent Role="Dish">
+        <PropertyRef Name="RestaurantId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Voting">
+    <Key>
+      <PropertyRef Name="VotingId" />
+    </Key>
+    <Property Type="Int32" Name="VotingId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="DishId" Nullable="false" />
+    <Property Type="DateTime" Name="VotedOn" Nullable="false" />
+    <Property Type="Int32" Name="VotedBy" Nullable="false" />
+    <NavigationProperty Name="Dish" Relationship="MyLunchBoxDevelopmentModel.FK__votings__dishId__2CBDA3B5" FromRole="voting" ToRole="Dish" />
+    <NavigationProperty Name="User" Relationship="MyLunchBoxDevelopmentModel.FK__votings__votedBy__43A1090D" FromRole="Voting" ToRole="User" />
+  </EntityType>
+  <Association Name="FK__votings__dishId__2CBDA3B5">
+    <End Type="MyLunchBoxDevelopmentModel.Dish" Role="Dish" Multiplicity="1" />
+    <End Type="MyLunchBoxDevelopmentModel.Voting" Role="voting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dish">
+        <PropertyRef Name="DishId" />
+      </Principal>
+      <Dependent Role="voting">
+        <PropertyRef Name="DishId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="userId" />
+    </Key>
+    <Property Type="Int32" Name="userId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="email" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="hashedPAssword" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="salt" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="strkey" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="firstName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="lastName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="phoneNumber" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="createdOn" Nullable="false" />
+    <Property Type="String" Name="referrer" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="lastActivityAt" Nullable="false" />
+    <Property Type="DateTime" Name="lastLoginAt" Nullable="false" />
+    <Property Type="DateTime" Name="lastLockoutAt" Nullable="false" />
+    <Property Type="DateTime" Name="lastPasswordChangedAt" Nullable="false" />
+    <Property Type="Boolean" Name="isLockedOut" Nullable="false" />
+    <Property Type="Boolean" Name="isApproved" Nullable="false" />
+    <Property Type="Int64" Name="facebookUserId" />
+    <Property Type="Boolean" Name="receiveEmail" Nullable="false" />
+    <Property Type="Boolean" Name="isConfirmed" Nullable="false" />
+    <Property Type="Int32" Name="addressId" />
+    <Property Type="String" Name="fbAccessToken" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="passwordQuestion" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="passwordAnswer" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="failedPasswordAttemptCount" Nullable="false" />
+    <Property Type="Int32" Name="failedPasswordAnswerAttemptCount" Nullable="false" />
+    <NavigationProperty Name="Location" Relationship="MyLunchBoxDevelopmentModel.FK__Users__addressId__398D8EEE" FromRole="User" ToRole="Location" />
+    <NavigationProperty Name="ShoppingCarts" Relationship="MyLunchBoxDevelopmentModel.FK__ShoppingC__UserI__4E88ABD4" FromRole="User" ToRole="ShoppingCart" />
+    <NavigationProperty Name="votings" Relationship="MyLunchBoxDevelopmentModel.FK__votings__votedBy__43A1090D" FromRole="User" ToRole="Voting" />
+    <NavigationProperty Name="UserDetails" Relationship="MyLunchBoxDevelopmentModel.FK__UserDetai__userI__1B9317B3" FromRole="User" ToRole="UserDetail" />
+    <NavigationProperty Name="Rewards" Relationship="MyLunchBoxDevelopmentModel.FK__Rewards__UserId__11158940" FromRole="User" ToRole="Reward" />
+    <NavigationProperty Name="Orders" Relationship="MyLunchBoxDevelopmentModel.FK__Orders__UserId__4316F928" FromRole="User" ToRole="Order" />
+  </EntityType>
+  <Association Name="FK__Users__addressId__398D8EEE">
+    <End Type="MyLunchBoxDevelopmentModel.Location" Role="Location" Multiplicity="0..1" />
+    <End Type="MyLunchBoxDevelopmentModel.User" Role="User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Location">
+        <PropertyRef Name="LocationId" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="addressId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ShoppingC__UserI__4E88ABD4">
+    <End Type="MyLunchBoxDevelopmentModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="MyLunchBoxDevelopmentModel.ShoppingCart" Role="ShoppingCart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="userId" />
+      </Principal>
+      <Dependent Role="ShoppingCart">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__votings__votedBy__43A1090D">
+    <End Type="MyLunchBoxDevelopmentModel.User" Role="User" Multiplicity="1" />
+    <End Type="MyLunchBoxDevelopmentModel.Voting" Role="Voting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="userId" />
+      </Principal>
+      <Dependent Role="Voting">
+        <PropertyRef Name="VotedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="RewardCard">
+    <Key>
+      <PropertyRef Name="RewardCardId" />
+    </Key>
+    <Property Type="Int32" Name="RewardCardId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Decimal" Name="RewardPoints" Nullable="false" Precision="8" Scale="2" />
+    <Property Type="String" Name="RewardDescription" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="Decimal" Name="UnitPrice" Nullable="false" Precision="8" Scale="2" />
+    <Property Type="Boolean" Name="IsAvailable" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserDetail">
+    <Key>
+      <PropertyRef Name="UserDetailsId" />
+    </Key>
+    <Property Type="Int32" Name="UserDetailsId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="UserId" Nullable="false" />
+    <Property Type="String" Name="FirstName" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="LastName" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="UniversityId" />
+    <Property Type="String" Name="PhoneNumber" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="LocationId" />
+    <Property Type="Int32" Name="UniversityDeliveryId" />
+    <NavigationProperty Name="Location" Relationship="MyLunchBoxDevelopmentModel.FK__UserDetai__locat__373B3228" FromRole="UserDetail" ToRole="Location" />
+    <NavigationProperty Name="University" Relationship="MyLunchBoxDevelopmentModel.FK__UserDetai__unive__1C873BEC" FromRole="UserDetail" ToRole="University" />
+    <NavigationProperty Name="University_Delivery" Relationship="MyLunchBoxDevelopmentModel.FK__UserDetai__Unive__55BFB948" FromRole="UserDetail" ToRole="University_Delivery" />
+    <NavigationProperty Name="User" Relationship="MyLunchBoxDevelopmentModel.FK__UserDetai__userI__1B9317B3" FromRole="UserDetail" ToRole="User" />
+  </EntityType>
+  <Association Name="FK__UserDetai__locat__373B3228">
+    <End Type="MyLunchBoxDevelopmentModel.Location" Role="Location" Multiplicity="0..1" />
+    <End Type="MyLunchBoxDevelopmentModel.UserDetail" Role="UserDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Location">
+        <PropertyRef Name="LocationId" />
+      </Principal>
+      <Dependent Role="UserDetail">
+        <PropertyRef Name="LocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__UserDetai__unive__1C873BEC">
+    <End Type="MyLunchBoxDevelopmentModel.University" Role="University" Multiplicity="0..1" />
+    <End Type="MyLunchBoxDevelopmentModel.UserDetail" Role="UserDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="University">
+        <PropertyRef Name="UniversityId" />
+      </Principal>
+      <Dependent Role="UserDetail">
+        <PropertyRef Name="UniversityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__UserDetai__Unive__55BFB948">
+    <End Type="MyLunchBoxDevelopmentModel.University_Delivery" Role="University_Delivery" Multiplicity="0..1" />
+    <End Type="MyLunchBoxDevelopmentModel.UserDetail" Role="UserDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="University_Delivery">
+        <PropertyRef Name="UniversityDeliveryId" />
+      </Principal>
+      <Dependent Role="UserDetail">
+        <PropertyRef Name="UniversityDeliveryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__UserDetai__userI__1B9317B3">
+    <End Type="MyLunchBoxDevelopmentModel.User" Role="User" Multiplicity="1" />
+    <End Type="MyLunchBoxDevelopmentModel.UserDetail" Role="UserDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="userId" />
+      </Principal>
+      <Dependent Role="UserDetail">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Reward">
+    <Key>
+      <PropertyRef Name="RewardId" />
+    </Key>
+    <Property Type="Int32" Name="RewardId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="RewardTypeId" Nullable="false" />
+    <Property Type="Decimal" Name="Amount" Nullable="false" Precision="8" Scale="2" />
+    <Property Type="DateTime" Name="RewardCreatedAt" Nullable="false" />
+    <Property Type="String" Name="RewardDescription" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="UserId" />
+    <Property Type="String" Name="Txn" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="OrderId" />
+    <NavigationProperty Name="User" Relationship="MyLunchBoxDevelopmentModel.FK__Rewards__UserId__11158940" FromRole="Reward" ToRole="User" />
+    <NavigationProperty Name="Order" Relationship="MyLunchBoxDevelopmentModel.FK__Rewards__orderId__4C364F0E" FromRole="Reward" ToRole="Order" />
+  </EntityType>
+  <Association Name="FK__Rewards__UserId__11158940">
+    <End Type="MyLunchBoxDevelopmentModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="MyLunchBoxDevelopmentModel.Reward" Role="Reward" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="userId" />
+      </Principal>
+      <Dependent Role="Reward">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Type="Int32" Name="OrderId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="TxnId" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="UserId" />
+    <Property Type="String" Name="PayerEmail" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="OrderStatusId" />
+    <Property Type="DateTime" Name="OrderReceivedAt" Nullable="false" />
+    <Property Type="String" Name="OrderDescription" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="PaymentStatus" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="Decimal" Name="Gross" Nullable="false" Precision="8" Scale="2" />
+    <Property Type="Decimal" Name="Fee" Nullable="false" Precision="8" Scale="2" />
+    <Property Type="Decimal" Name="Tax" Nullable="false" Precision="8" Scale="2" />
+    <Property Type="String" Name="PaymentNote" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Type="Decimal" Name="Savings" Nullable="false" Precision="8" Scale="2" />
+    <Property Type="String" Name="ReceiverFirstName" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="ReceiverLastName" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="DeliveryLocationId" Nullable="false" />
+    <Property Type="String" Name="ReceiverPhoneNumber" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="DeliveryTime" Nullable="false" />
+    <NavigationProperty Name="DeliveryLocation" Relationship="MyLunchBoxDevelopmentModel.FK__Orders__Delivery__308E3499" FromRole="Order" ToRole="Location" />
+    <NavigationProperty Name="OrderItems" Relationship="MyLunchBoxDevelopmentModel.FK__OrderItem__order__7849DB76" FromRole="Order" ToRole="OrderItem" />
+    <NavigationProperty Name="User" Relationship="MyLunchBoxDevelopmentModel.FK__Orders__UserId__4316F928" FromRole="Order" ToRole="User" />
+    <NavigationProperty Name="Rewards" Relationship="MyLunchBoxDevelopmentModel.FK__Rewards__orderId__4C364F0E" FromRole="Order" ToRole="Reward" />
+  </EntityType>
+  <Association Name="FK__Orders__Delivery__308E3499">
+    <End Type="MyLunchBoxDevelopmentModel.Location" Role="Location" Multiplicity="1" />
+    <End Type="MyLunchBoxDevelopmentModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Location">
+        <PropertyRef Name="LocationId" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="DeliveryLocationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__OrderItem__order__7849DB76">
+    <End Type="MyLunchBoxDevelopmentModel.Order" Role="Order" Multiplicity="1" />
+    <End Type="MyLunchBoxDevelopmentModel.OrderItem" Role="OrderItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="OrderId" />
+      </Principal>
+      <Dependent Role="OrderItem">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Orders__UserId__4316F928">
+    <End Type="MyLunchBoxDevelopmentModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="MyLunchBoxDevelopmentModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="userId" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Rewards__orderId__4C364F0E">
+    <End Type="MyLunchBoxDevelopmentModel.Order" Role="Order" Multiplicity="0..1" />
+    <End Type="MyLunchBoxDevelopmentModel.Reward" Role="Reward" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="OrderId" />
+      </Principal>
+      <Dependent Role="Reward">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

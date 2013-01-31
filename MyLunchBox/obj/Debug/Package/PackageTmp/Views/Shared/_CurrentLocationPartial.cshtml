@@ -1,0 +1,60 @@
+﻿@{
+    var db = new MyLunchBox.Models.MyLunchBoxDevelopmentEntities();
+    var selectedUniversity = MyLunchBox.Models.LocationHelper.GetSelectedUniversity(new HttpContextWrapper(HttpContext.Current));
+    var universities = db.Universities.Select(i=>new {i.UniversityName, i.UniversityId}).AsEnumerable().Select(i=>new SelectListItem() { Text = i.UniversityName, Value = i.UniversityId.ToString()}).ToList();
+}
+@if (selectedUniversity != null)
+{ 
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <span id="universityName">@selectedUniversity.UniversityName</span>
+        <b class="caret"></b>
+    </a>
+} 
+else {
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <span id="universityName">Select your university</span>
+        <b class="caret"></b>
+    </a>
+}
+
+<ul class="dropdown-menu">
+    
+    @foreach (var university in universities)
+    {
+    	<li><a class="changeUniversity" data-id="@university.Value" href="">
+    	@if(@selectedUniversity != null && (university.Value == @selectedUniversity.UniversityId.ToString())) {
+    		<i class="icon-ok icon-orange"></i>
+    	}
+    	@university.Text</a></li>
+    }
+    
+</ul>
+
+<script type="text/javascript">
+    function applyLocationChange(e) {
+        e.preventDefault();
+		
+        var universityId = $(this).attr("data-id");
+		
+        var postdata = {};
+        if (universityId != null) {
+            postdata = { "universityId": universityId };
+        }
+        $.post("/Location/CurrentLocation/", postdata,
+            function (data) {
+                if (data.SelectedUniversity != '') {
+                    //todo: change to $('#currentLocation').html($(data).html());
+					console.log(data.SelectedUniversity);
+                    window.location.href = "/";
+                }
+            });
+
+    }
+    $(function () {
+        // Document.ready -> link up remove event handler
+        $(".changeUniversity").bind('click',applyLocationChange);
+		$(".changeUniversity").bind('touchstart',applyLocationChange);
+		// Fixes sub-nav not working as expected on IOS
+		$('body').on('touchstart.dropdown', '.dropdown-menu', function (e) { e.stopPropagation(); })
+    });
+</script>

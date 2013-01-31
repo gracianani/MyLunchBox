@@ -1,0 +1,18 @@
+﻿@model IEnumerable<MyLunchBox.Models.University>
+
+@{
+    ViewBag.Title = "Select University";
+    Layout = "~/Views/Shared/_MobileMemberMaster.cshtml";
+}
+
+<div data-role="content">
+    <label for="universitySelect" class="select">Your University:</label>
+    <select name="universitySelect" id="universitySelect">
+        @foreach(var university in Model) 
+        {
+        <option value="@university.UniversityId">@university.UniversityName</option>
+        }
+    </select>
+    @Html.ActionLink("Next", "ChooseRestaurant", new { universityId = "1"},new { data_role = "button", data_ajax="false", data_theme="b",data_icon="arrow-r",data_iconpos="right"} )
+</div>
+

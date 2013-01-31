@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="72f04897-710f-4a12-a593-8f4600a57236" name="yaqiZhao@YAQIZHAO-PC 2013-01-22 20:05:37" runUser="yaqiZhao-PC\yaqiZhao" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Local" id="6e85fe15-3410-4b79-bbb0-bb465eb8e417">
+    <Description>These are default test settings for a local test run.</Description>
+    <Deployment enabled="false" runDeploymentRoot="yaqiZhao_YAQIZHAO-PC 2013-01-22 20_05_37">
+      <DeploymentItem filename="C:\Users\yaqiZhao\Documents\Visual Studio 2010\Projects\MyLunchBox\MyLunchBox\bin\MyLunchBox.dll" />
+    </Deployment>
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2013-01-22T20:05:37.1331982-06:00" queuing="2013-01-22T20:05:37.3042080-06:00" start="2013-01-22T20:05:37.3862127-06:00" finish="2013-01-22T20:05:56.7873223-06:00" />
+  <ResultSummary outcome="Completed">
+    <Counters total="1" executed="1" passed="1" error="0" failed="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="CanSendOrderConfirmationMailByOrderId" storage="c:\users\yaqizhao\documents\visual studio 2010\projects\mylunchbox\mylunchboxtest\bin\debug\mylunchboxtest.dll" id="de0d9ea8-5e3d-1407-a1b3-6ccd59aad334">
+      <Execution id="061a0388-0295-41fc-97b2-9857999695fd" />
+      <TestMethod codeBase="C:/Users/yaqiZhao/Documents/Visual Studio 2010/Projects/MyLunchBox/MyLunchBoxTest/bin/Debug/MyLunchBoxTest.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="MyLunchBoxTest.UnitTest1, MyLunchBoxTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="CanSendOrderConfirmationMailByOrderId" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="de0d9ea8-5e3d-1407-a1b3-6ccd59aad334" executionId="061a0388-0295-41fc-97b2-9857999695fd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="061a0388-0295-41fc-97b2-9857999695fd" testId="de0d9ea8-5e3d-1407-a1b3-6ccd59aad334" testName="CanSendOrderConfirmationMailByOrderId" computerName="YAQIZHAO-PC" duration="00:00:17.4997318" startTime="2013-01-22T20:05:37.3952132-06:00" endTime="2013-01-22T20:05:55.2512345-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="061a0388-0295-41fc-97b2-9857999695fd">
+    </UnitTestResult>
+  </Results>
+</TestRun>
